@@ -7,9 +7,15 @@ import com.raylib.java.textures.rTextures;
 import com.raylib.java.utils.FileIO;
 import com.raylib.java.utils.Tracelog;
 import org.goose.Main;
+import org.lwjgl.glfw.GLFWImage;
 
 import java.io.InputStream;
+import java.nio.ByteBuffer;
 import java.util.Arrays;
+
+import org.lwjgl.glfw.GLFW.*;
+
+import static org.lwjgl.glfw.GLFW.glfwSetWindowIcon;
 
 public class TextureLoader {
     public static byte[] fileReader(String path) {
@@ -35,6 +41,35 @@ public class TextureLoader {
         if (image.getData() == null) {
             System.out.println("ERROR IN TEXTURE LOADING");
         }
-        return rTextures.LoadTextureFromImage(image);
+        Texture2D texture = rTextures.LoadTextureFromImage(image);
+        rTextures.UnloadImage(image);
+        return texture;
+    }
+
+    public static Image loadImage(String path) {
+        byte[] data = fileReader(path);
+        Image image = rTextures.LoadImageFromMemory(path, data, 0);
+
+        if (image.getData() == null) {
+            System.out.println("ERROR IN image LOADING");
+        }
+        return image;
+    }
+
+    public static void setWindowIcon(Image image) {
+
+        //FIXME so bad
+        byte[] imgData = image.getData();
+
+        GLFWImage icon = GLFWImage.malloc();
+        GLFWImage.Buffer iconBuffer = GLFWImage.malloc(1);
+        ByteBuffer pixelData = ByteBuffer.allocateDirect(imgData.length);
+        pixelData.put(imgData).flip();
+
+        icon.set(image.getWidth(), image.getHeight(), pixelData);
+        iconBuffer.put(0, icon);
+        iconBuffer.position(0);
+
+        glfwSetWindowIcon(Renderer.renderer.core.GetWindowHandle(), iconBuffer);
     }
 }

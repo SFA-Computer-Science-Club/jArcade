@@ -17,8 +17,6 @@ public class DirtBlock extends Tile {
     private Rectangle rect;
 
     public static void initTexture() {
-        System.out.println(Main.class.getClassLoader().getResource("textures/dirt_block.png").getPath());
-        //texture = new Texture2D("/textures/dirt_block.png");
         texture = TextureLoader.loadTexture("textures/dirt_block.png");
         texture.setHeight(32);
         texture.setWidth(32);
@@ -32,8 +30,6 @@ public class DirtBlock extends Tile {
 
     public DirtBlock(int x, int y, int size) {
         rect = new Rectangle(x, y, size, size);
-        //texture.setWidth(size);
-        //texture.setHeight(size);
         setSizeY(size);
         setSizeX(size);
         setX(x);
@@ -42,8 +38,6 @@ public class DirtBlock extends Tile {
 
     @Override
     public void render() {
-        //x and y given in this format are 0,1,2,3,4, we have to convert them to int and scale up
-        //Renderer.drawTile(getX(),getY(),getSizeX(), Color.BROWN);
         Renderer.renderer.textures.DrawTexture(texture, getX(), getY(), Color.WHITE);
     }
 }

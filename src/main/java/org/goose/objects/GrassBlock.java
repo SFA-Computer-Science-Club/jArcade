@@ -4,16 +4,17 @@ import com.raylib.java.core.Color;
 import com.raylib.java.shapes.Rectangle;
 import com.raylib.java.textures.Texture2D;
 import org.goose.core.Renderer;
+import org.goose.core.TextureLoader;
 
 public class GrassBlock extends Tile {
 
-    //private static Texture2D texture;
+    private static Texture2D texture;
     private Rectangle rect;
 
     public static void initTexture() {
-        //texture = new Texture2D("/textures/grass_block.png");
-        //.setWidth(32);
-        //texture.setHeight(32);
+        texture = TextureLoader.loadTexture("textures/grass_block.png");
+        texture.setHeight(32);
+        texture.setWidth(32);
     }
 
     public GrassBlock() {
@@ -31,8 +32,6 @@ public class GrassBlock extends Tile {
 
     @Override
     public void render() {
-        //x and y given in this format are 0,1,2,3,4, we have to convert them to int and scale up
-        //Renderer.drawTile(getX(),getY(),getSizeX(), Color.BROWN);
-        //Renderer.renderer.textures.DrawTexture(texture, getX(), getY(), Color.WHITE);
+        Renderer.renderer.textures.DrawTexture(texture, getX(), getY(), Color.WHITE);
     }
 }

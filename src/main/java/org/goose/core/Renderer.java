@@ -16,7 +16,7 @@ public class Renderer {
 
     public static void init() {
         renderer.core.InitWindow(800,600, "Platformer");
-        renderer.core.SetTargetFPS(120);
+        renderer.core.SetTargetFPS(144);
         renderer.core.SetExitKey(Keyboard.KEY_ESCAPE);
     }
 

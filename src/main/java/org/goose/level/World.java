@@ -66,7 +66,7 @@ public class World {
                     if (tileNumber == 3) {
                         tileMap.put(new Vector2(horizontalCounter, counter), new DirtBlock(horizontalCounter * 32, counter * 32,32));
                     } else if (tileNumber == 6) {
-                        //tileMap.put(new Vector2(horizontalCounter, counter), new GrassBlock(horizontalCounter * 32, counter * 32,32));
+                        tileMap.put(new Vector2(horizontalCounter, counter), new GrassBlock(horizontalCounter * 32, counter * 32,32));
                     }
                     horizontalCounter++;
                 }
