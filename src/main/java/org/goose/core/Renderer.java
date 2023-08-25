@@ -6,6 +6,7 @@ import com.raylib.java.core.input.Keyboard;
 import com.raylib.java.core.rcamera.Camera2D;
 import com.raylib.java.raymath.Vector2;
 import org.goose.level.World;
+import org.goose.objects.Entity;
 import org.goose.objects.Tile;
 
 public class Renderer {
@@ -50,7 +51,9 @@ public class Renderer {
         }
 
         //after map is rendered, render player/entities
-        //TODO
+        for(Entity entity : world.entities) {
+            entity.render();
+        }
     }
 
     public static void drawTile(int positionX, int positionY, int size, Color color) {

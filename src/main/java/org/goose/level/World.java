@@ -4,6 +4,7 @@ import com.raylib.java.core.Color;
 import com.raylib.java.raymath.Vector2;
 import org.goose.Main;
 import org.goose.objects.DirtBlock;
+import org.goose.objects.Entity;
 import org.goose.objects.GrassBlock;
 import org.goose.objects.Tile;
 
@@ -17,6 +18,8 @@ import java.util.Scanner;
 
 public class World {
     public HashMap<Vector2, Tile> tileMap = new HashMap<>();
+
+    public ArrayList<Entity> entities = new ArrayList<>(); //holds all players, or entities
 
     private Color backGroundColor = Color.GRAY;
 
@@ -41,6 +44,8 @@ public class World {
     public World() {
 
     }
+
+    
 
     public void loadWorldFromCSV(String path) throws IOException {
         //clear old map and load the new map, allows a world to have map changed mid-game

@@ -14,6 +14,7 @@ import org.goose.core.TextureLoader;
 import org.goose.level.World;
 import org.goose.objects.DirtBlock;
 import org.goose.objects.GrassBlock;
+import org.goose.objects.Player;
 import org.goose.objects.Tile;
 import org.w3c.dom.Text;
 
@@ -36,6 +37,9 @@ public class Main {
         World world = new World();
         world.loadWorldFromCSV("levels/TestMap.csv");
 
+        Player player = new Player(100,100);
+        world.entities.add(player);
+
 
         Image image = TextureLoader.loadImage("textures/dirt_block.png");
         //TextureLoader.setWindowIcon(image); //TODO Figure out fix for window icon crash
@@ -57,11 +61,16 @@ public class Main {
                 Renderer.renderFPS();
             }
 
+            //handle player input, for now this will do, but eventually we will move all of the input handling
+            // to the world class, so each world can choose what it wants to do (say if you had space invaders or something)
             if (Input.isKeyHeld(Keyboard.KEY_A)) {
-                //a key is being pressed
-                Renderer.camera.offset.x += 10;
+                player.getRect().x -= 2;
             } else if (Input.isKeyHeld(Keyboard.KEY_D)) {
-                Renderer.camera.offset.x -= 10;
+                player.getRect().x += 2;
+            }
+
+            if (Input.isKeyPressed(Keyboard.KEY_SPACE)) {
+                player.getRect().y -= 10;
             }
 
             Renderer.renderEnd();
