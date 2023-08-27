@@ -43,7 +43,7 @@ public class Main {
 
         Image image = TextureLoader.loadImage("textures/dirt_block.png");
         //TextureLoader.setWindowIcon(image); //TODO Figure out fix for window icon crash
-        //Renderer.renderer.core.SetWindowIcon(image);
+        Renderer.renderer.core.SetWindowIcon(image);
 
         //main game loop
         while (!Renderer.shouldClose()) {

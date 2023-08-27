@@ -14,7 +14,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
 
-    implementation(files("src/libs/Raylib-J_DEV-0.5.jar"))
+    implementation(files("src/libs/Raylib-J.jar"))
     //api(fileTree("src/libs") { include("*.jar") })
 }
 
