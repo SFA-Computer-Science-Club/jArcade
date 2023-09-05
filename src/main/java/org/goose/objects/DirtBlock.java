@@ -18,8 +18,8 @@ public class DirtBlock extends Tile {
 
     public static void initTexture() {
         texture = TextureLoader.loadTexture("textures/dirt_block.png");
-        texture.setHeight(32);
-        texture.setWidth(32);
+        texture.setHeight(Renderer.getWindowWidth()/32);
+        texture.setWidth(Renderer.getWindowWidth()/32);
     }
 
 

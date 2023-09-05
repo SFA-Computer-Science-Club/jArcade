@@ -3,6 +3,7 @@ package org.goose.level;
 import com.raylib.java.core.Color;
 import com.raylib.java.raymath.Vector2;
 import org.goose.Main;
+import org.goose.core.Renderer;
 import org.goose.objects.DirtBlock;
 import org.goose.objects.Entity;
 import org.goose.objects.GrassBlock;
@@ -58,6 +59,10 @@ public class World {
             //read through the csv
             int counter = 0;
             String line;
+
+            int width = Renderer.getWindowWidth();
+            int height = Renderer.getWindowHeight();
+
             while ((line = fileReader.readLine()) != null) {
 
                 //dont mind the code below, I prefer working with arraylists
@@ -69,9 +74,9 @@ public class World {
                     int tileNumber = Integer.parseInt(object);
 
                     if (tileNumber == 3) {
-                        tileMap.put(new Vector2(horizontalCounter, counter), new DirtBlock(horizontalCounter * 32, counter * 32,32));
+                        tileMap.put(new Vector2(horizontalCounter, counter), new DirtBlock(horizontalCounter * width/32, counter * width/32,width/32));
                     } else if (tileNumber == 6) {
-                        tileMap.put(new Vector2(horizontalCounter, counter), new GrassBlock(horizontalCounter * 32, counter * 32,32));
+                        tileMap.put(new Vector2(horizontalCounter, counter), new GrassBlock(horizontalCounter * width/32, counter * width/32,width/32));
                     }
                     horizontalCounter++;
                 }

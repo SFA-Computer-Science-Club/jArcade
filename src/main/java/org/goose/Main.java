@@ -8,9 +8,7 @@ import com.raylib.java.core.rcamera.Camera2D;
 import com.raylib.java.raymath.Vector2;
 import com.raylib.java.textures.Image;
 import com.raylib.java.textures.Texture2D;
-import org.goose.core.Input;
-import org.goose.core.Renderer;
-import org.goose.core.TextureLoader;
+import org.goose.core.*;
 import org.goose.level.World;
 import org.goose.objects.DirtBlock;
 import org.goose.objects.GrassBlock;
@@ -40,40 +38,18 @@ public class Main {
         Player player = new Player(100,100);
         world.entities.add(player);
 
-
         Image image = TextureLoader.loadImage("textures/dirt_block.png");
-        //TextureLoader.setWindowIcon(image); //TODO Figure out fix for window icon crash
         Renderer.renderer.core.SetWindowIcon(image);
 
         //main game loop
         while (!Renderer.shouldClose()) {
-            Renderer.renderBegin();
+            Time.setCurrentTime(Time.now());
 
-            if (Input.isKeyPressed(Keyboard.KEY_F3)) {
-                Renderer.drawFPS = !Renderer.drawFPS;
-            }
+            Physics.tick(Time.getDeltaTime()); //Calculate physics, movement, AI etc
+            Renderer.render(world); //Update everything
 
-            //on first start you'd run something like the main menu, where you can pick which level
-
-            Renderer.renderWorld(world);
-
-            if (Renderer.drawFPS) {
-                Renderer.renderFPS();
-            }
-
-            //handle player input, for now this will do, but eventually we will move all of the input handling
-            // to the world class, so each world can choose what it wants to do (say if you had space invaders or something)
-            if (Input.isKeyHeld(Keyboard.KEY_A)) {
-                player.getRect().x -= 2;
-            } else if (Input.isKeyHeld(Keyboard.KEY_D)) {
-                player.getRect().x += 2;
-            }
-
-            if (Input.isKeyPressed(Keyboard.KEY_SPACE)) {
-                player.getRect().y -= 10;
-            }
-
-            Renderer.renderEnd();
+            Time.sleep(Time.getCurrentTime() + (1000f/Renderer.targetFPS) - Time.now());
+            Time.setLastTime(Time.now());
         }
     }
 }

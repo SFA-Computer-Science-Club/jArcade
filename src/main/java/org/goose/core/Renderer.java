@@ -1,6 +1,8 @@
 package org.goose.core;
 
+import com.raylib.java.Config;
 import com.raylib.java.Raylib;
+import com.raylib.java.core.rCore;
 import com.raylib.java.core.Color;
 import com.raylib.java.core.input.Keyboard;
 import com.raylib.java.core.rcamera.Camera2D;
@@ -14,10 +16,15 @@ public class Renderer {
     public static Raylib renderer = new Raylib();
     public static boolean drawFPS = false;
     public static Camera2D camera = new Camera2D();
+    public static int targetFPS = 144;
+
+    private static int windowWidth = 1920;
+    private static int windowHeight = 1080;
 
     public static void init() {
-        renderer.core.InitWindow(800,600, "Platformer");
-        renderer.core.SetTargetFPS(144);
+        rCore.SetConfigFlags(Config.ConfigFlag.FLAG_FULLSCREEN_MODE | Config.ConfigFlag.FLAG_VSYNC_HINT);
+        renderer.core.InitWindow(windowWidth,windowHeight, "Platformer");
+        renderer.core.SetTargetFPS(targetFPS);
         renderer.core.SetExitKey(Keyboard.KEY_ESCAPE);
     }
 
@@ -56,7 +63,35 @@ public class Renderer {
         }
     }
 
+    public static void render(World world) {
+        Renderer.renderBegin();
+
+        Renderer.renderWorld(world);
+
+        if (drawFPS) {
+            Renderer.renderFPS();
+        }
+
+        Renderer.renderEnd();
+    }
+
     public static void drawTile(int positionX, int positionY, int size, Color color) {
         renderer.shapes.DrawRectangle(positionX, positionY, size, size, color);
+    }
+
+    public static int getWindowWidth() {
+        return windowWidth;
+    }
+
+    public static void setWindowWidth(int windowWidth) {
+        Renderer.windowWidth = windowWidth;
+    }
+
+    public static int getWindowHeight() {
+        return windowHeight;
+    }
+
+    public static void setWindowHeight(int windowHeight) {
+        Renderer.windowHeight = windowHeight;
     }
 }
