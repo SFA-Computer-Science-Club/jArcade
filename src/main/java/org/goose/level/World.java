@@ -32,7 +32,7 @@ public class World {
         this.backGroundColor = backGroundColor;
     }
 
-    private double gravity = -9.807;
+    private double gravity = 1;
 
     public double getGravity() {
         return gravity;
@@ -59,7 +59,6 @@ public class World {
         tileMap.clear();
 
         try (InputStream inputStream = Main.class.getClassLoader().getResourceAsStream(path)) {
-            System.out.println(Main.class.getClassLoader().getResource(path).getPath());
             BufferedReader fileReader = new BufferedReader(new InputStreamReader(inputStream));
 
             //read through the csv

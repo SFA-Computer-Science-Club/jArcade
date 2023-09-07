@@ -3,6 +3,7 @@ package org.goose.objects;
 import com.raylib.java.core.Color;
 import com.raylib.java.core.input.Keyboard;
 import com.raylib.java.shapes.Rectangle;
+import org.goose.Main;
 import org.goose.core.Input;
 import org.goose.core.Renderer;
 
@@ -28,11 +29,41 @@ public class Player extends Entity{
     public void tick(double delta) {
         //do things like collision detecting, gravity, etc here
         if (Input.pressedKeys.contains(Keyboard.KEY_A)) {
-            this.getRect().x -= 3;
+            this.getVelocity().x -= 0.3;
         }
         if (Input.pressedKeys.contains(Keyboard.KEY_D)) {
-            this.getRect().x += 3;
+            this.getVelocity().x += 0.3;
         }
-        //this.getRect().y += 2;
+
+        if (Input.pressedKeys.contains(Keyboard.KEY_SPACE)) {
+            this.getVelocity().y -= 4;
+        }
+
+        if (this.getVelocity().x > 5) {
+            this.getVelocity().x = 5;
+        } else if (this.getVelocity().x <-5) {
+            this.getVelocity().x = -5;
+        }
+
+        //do friction
+        if (this.getVelocity().x < 0 && !Input.pressedKeys.contains(Keyboard.KEY_A)) {
+            this.getVelocity().x += 0.1;
+            if (Math.abs(this.getVelocity().x) < 0.1) {
+                this.getVelocity().x = 0;
+            }
+        }
+        if (this.getVelocity().x > 0 && !Input.pressedKeys.contains(Keyboard.KEY_D)) {
+            this.getVelocity().x -= 0.1;
+            if (Math.abs(this.getVelocity().x) < 0.1) {
+                this.getVelocity().x = 0;
+            }
+        }
+
+        //do gravity
+        this.getVelocity().y += Main.world.getGravity()/20;
+
+        //Add the rect position with the velocity
+        this.getRect().x += this.getVelocity().x;
+        this.getRect().y += this.getVelocity().y;
     }
 }

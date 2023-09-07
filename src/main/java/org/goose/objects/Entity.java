@@ -10,7 +10,7 @@ public abstract class Entity {
     private Rectangle rect;
 
     private Vector2 position;
-    private Vector2 velocity;
+    private Vector2 velocity = new Vector2();
 
     public Entity() {}
 
