@@ -16,13 +16,14 @@ public class Renderer {
     public static Raylib renderer = new Raylib();
     public static boolean drawFPS = false;
     public static Camera2D camera = new Camera2D();
-    public static int targetFPS = 144;
+    public static int targetFPS = 60; //Visual FPS
+    public static int targetTPS = 120;
 
     private static int windowWidth = 1920;
     private static int windowHeight = 1080;
 
     public static void init() {
-        rCore.SetConfigFlags(Config.ConfigFlag.FLAG_FULLSCREEN_MODE | Config.ConfigFlag.FLAG_VSYNC_HINT);
+        rCore.SetConfigFlags(Config.ConfigFlag.FLAG_FULLSCREEN_MODE);
         renderer.core.InitWindow(windowWidth,windowHeight, "Platformer");
         renderer.core.SetTargetFPS(targetFPS);
         renderer.core.SetExitKey(Keyboard.KEY_ESCAPE);
@@ -63,13 +64,18 @@ public class Renderer {
         }
     }
 
-    public static void render(World world) {
+    public static void render(World world, double accumulator) {
         Renderer.renderBegin();
 
         Renderer.renderWorld(world);
 
+        accumulator = Math.round(accumulator*100)/100d;
+        Renderer.renderer.text.DrawText("Accumulator: " + accumulator + ", " + "TargetTPS: " + targetTPS, 0,0,32, Color.RED);
+
+
         if (drawFPS) {
-            Renderer.renderFPS();
+            renderer.text.DrawText(""+Time.getDeltaTime(), 100,0, 32, Color.BLACK);
+            renderer.text.DrawText("FPS:" + String.format("%.1f", (Time.getDeltaTime()*10)), 0,0,32,Color.BLACK);
         }
 
         Renderer.renderEnd();

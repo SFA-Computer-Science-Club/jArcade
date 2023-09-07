@@ -1,6 +1,7 @@
 package org.goose.core;
 
 import com.raylib.java.core.input.Keyboard;
+import org.goose.Main;
 
 public class Physics {
 
@@ -9,5 +10,7 @@ public class Physics {
         if (Input.isKeyPressed(Keyboard.KEY_F3)) {
             Renderer.drawFPS = !Renderer.drawFPS;
         }
+
+        Main.world.tick(deltaTime);
     }
 }

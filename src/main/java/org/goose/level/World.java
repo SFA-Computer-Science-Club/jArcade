@@ -46,6 +46,12 @@ public class World {
 
     }
 
+    public void tick(double deltaTime) {
+        for (Entity entity : entities) {
+            entity.tick(deltaTime);
+        }
+    }
+
     
 
     public void loadWorldFromCSV(String path) throws IOException {

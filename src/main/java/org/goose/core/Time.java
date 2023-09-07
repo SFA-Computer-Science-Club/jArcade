@@ -1,11 +1,10 @@
 package org.goose.core;
 
-import com.raylib.java.core.rCore;
+import org.lwjgl.glfw.GLFW;
 
 public class Time {
-    private static double lastTime = rCore.GetTime();
 
-    private static double currentTime = 0;
+    private static double lastTime = GLFW.glfwGetTime();
 
     public static double getLastTime() {
         return lastTime;
@@ -16,22 +15,18 @@ public class Time {
     }
 
     public static double getCurrentTime() {
-        return currentTime;
-    }
-
-    public static void setCurrentTime(double currentTime) {
-        Time.currentTime = currentTime;
+        return GLFW.glfwGetTime();
     }
 
     public static double getDeltaTime() {
-        return (currentTime-lastTime);
+        return (getCurrentTime()-getLastTime());
     }
 
     /**
-     * Returns the current time
+     * Returns the current time in milliseconds
      */
     public static double now() {
-        return rCore.GetTime();
+        return GLFW.glfwGetTime()*1000;
     }
 
     /**

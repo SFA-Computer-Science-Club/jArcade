@@ -14,6 +14,7 @@ import org.goose.objects.DirtBlock;
 import org.goose.objects.GrassBlock;
 import org.goose.objects.Player;
 import org.goose.objects.Tile;
+import org.lwjgl.glfw.GLFW;
 import org.w3c.dom.Text;
 
 import java.io.FileNotFoundException;
@@ -24,6 +25,9 @@ import java.util.Arrays;
 
 
 public class Main {
+
+    public static World world = new World();
+
     public static void main(String[] args) throws IOException, URISyntaxException {
         Renderer.init();
 
@@ -32,7 +36,6 @@ public class Main {
         DirtBlock.initTexture();
         GrassBlock.initTexture();
 
-        World world = new World();
         world.loadWorldFromCSV("levels/TestMap.csv");
 
         Player player = new Player(100,100);
@@ -40,16 +43,28 @@ public class Main {
 
         Image image = TextureLoader.loadImage("textures/dirt_block.png");
         Renderer.renderer.core.SetWindowIcon(image);
+        Time.setLastTime(Time.now());
+
+        double accumulator = 0.0;
+        double lastUpdateTime = Time.now();
 
         //main game loop
         while (!Renderer.shouldClose()) {
-            Time.setCurrentTime(Time.now());
+            double deltaTime = (Time.now()-lastUpdateTime);
+            lastUpdateTime += deltaTime;
 
-            Physics.tick(Time.getDeltaTime()); //Calculate physics, movement, AI etc
-            Renderer.render(world); //Update everything
+            double targetTPS = (1000d/Renderer.targetTPS);
 
-            Time.sleep(Time.getCurrentTime() + (1000f/Renderer.targetFPS) - Time.now());
-            Time.setLastTime(Time.now());
+            accumulator += deltaTime;
+
+            Input.registerInput(); //Gather input for processing in tick
+
+            while (accumulator > targetTPS) {
+                Physics.tick(targetTPS); //Calculate physics, movement, AI etc
+                accumulator -= targetTPS;
+            }
+
+            Renderer.render(world, accumulator); //Update everything
         }
     }
 }
