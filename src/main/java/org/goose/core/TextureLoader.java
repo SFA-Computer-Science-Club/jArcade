@@ -55,21 +55,4 @@ public class TextureLoader {
         }
         return image;
     }
-
-    public static void setWindowIcon(Image image) {
-
-        //FIXME so bad
-        byte[] imgData = image.getData();
-
-        GLFWImage icon = GLFWImage.malloc();
-        GLFWImage.Buffer iconBuffer = GLFWImage.malloc(1);
-        ByteBuffer pixelData = ByteBuffer.allocateDirect(imgData.length);
-        pixelData.put(imgData).flip();
-
-        icon.set(image.getWidth(), image.getHeight(), pixelData);
-        iconBuffer.put(0, icon);
-        iconBuffer.position(0);
-
-        glfwSetWindowIcon(Renderer.renderer.core.GetWindowHandle(), iconBuffer);
-    }
 }
