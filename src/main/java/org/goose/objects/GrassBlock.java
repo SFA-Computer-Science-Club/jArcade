@@ -9,7 +9,6 @@ import org.goose.core.TextureLoader;
 public class GrassBlock extends Tile {
 
     private static Texture2D texture;
-    private Rectangle rect;
 
     public static void initTexture() {
         texture = TextureLoader.loadTexture("textures/grass_block.png");
@@ -23,7 +22,7 @@ public class GrassBlock extends Tile {
     }
 
     public GrassBlock(int x, int y, int size) {
-        rect = new Rectangle(x, y, size, size);
+        this.setRect(new Rectangle(x, y, size, size));
         setSizeY(size);
         setSizeX(size);
         setX(x);

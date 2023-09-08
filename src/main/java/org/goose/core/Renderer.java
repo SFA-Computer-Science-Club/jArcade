@@ -7,6 +7,8 @@ import com.raylib.java.core.Color;
 import com.raylib.java.core.input.Keyboard;
 import com.raylib.java.core.rcamera.Camera2D;
 import com.raylib.java.raymath.Vector2;
+import com.raylib.java.shapes.Rectangle;
+import org.goose.Main;
 import org.goose.level.World;
 import org.goose.objects.Entity;
 import org.goose.objects.Tile;
@@ -16,7 +18,7 @@ public class Renderer {
     public static Raylib renderer = new Raylib();
     public static boolean drawFPS = false;
     public static Camera2D camera = new Camera2D();
-    public static int targetFPS = 60; //Visual FPS
+    public static int targetFPS = 90; //Visual FPS
     public static int targetTPS = 120;
 
     private static int windowWidth = 1920;
@@ -64,19 +66,27 @@ public class Renderer {
         }
     }
 
-    public static void render(World world, double accumulator) {
+    public static void render(World world) {
         Renderer.renderBegin();
 
         Renderer.renderWorld(world);
+        Renderer.renderer.text.DrawText("FPS: " + rCore.GetFPS(), 0,0, 30, Color.RED);
+        Renderer.renderer.text.DrawText("eeee: " + Main.world.tileMap.get(new Vector2(0,3)), 0,40, 30, Color.YELLOW);
+        Renderer.renderer.text.DrawText("Mouse Position: " + Input.getMousePosition().x + "," + Input.getMousePosition().y, 0, 80, 30, Color.GREEN);
 
-        accumulator = Math.round(accumulator*100)/100d;
-        Renderer.renderer.text.DrawText("Accumulator: " + accumulator + ", " + "TargetTPS: " + targetTPS, 0,0,32, Color.RED);
-
-
-        if (drawFPS) {
-            renderer.text.DrawText(""+Time.getDeltaTime(), 100,0, 32, Color.BLACK);
-            renderer.text.DrawText("FPS:" + String.format("%.1f", (Time.getDeltaTime()*10)), 0,0,32,Color.BLACK);
+        Rectangle rectangle = new Rectangle(Input.getMousePosition().x, Input.getMousePosition().y, 25,25);
+        for (Vector2 vector2 : Main.world.tileMap.keySet()) {
+            Tile tile = Main.world.tileMap.get(vector2);
+            if (renderer.shapes.CheckCollisionRecs(tile.getRect(), rectangle)) {
+                Renderer.renderer.shapes.DrawRectangle((int) rectangle.x, (int) rectangle.y, (int) rectangle.width, (int) rectangle.height, Color.RED);
+                break;
+            } else {
+                Renderer.renderer.shapes.DrawRectangle((int) rectangle.x, (int) rectangle.y, (int) rectangle.width, (int) rectangle.height, Color.BLUE);
+            }
         }
+
+
+        //The above line makes a rectangle follow your cursor, cool stuff.
 
         Renderer.renderEnd();
     }

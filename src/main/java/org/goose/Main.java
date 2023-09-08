@@ -64,7 +64,7 @@ public class Main {
                 accumulator -= targetTPS;
             }
 
-            Renderer.render(world, accumulator); //Update everything
+            Renderer.render(world); //Update everything
         }
     }
 }

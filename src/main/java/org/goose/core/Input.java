@@ -2,6 +2,7 @@ package org.goose.core;
 
 import com.raylib.java.core.input.Keyboard;
 import com.raylib.java.raymath.Vector2;
+import com.raylib.java.core.rCore;
 
 import java.util.ArrayList;
 
@@ -26,7 +27,7 @@ public class Input {
     }
 
     public static Vector2 getMousePosition() {
-        return Renderer.renderer.core.GetMouseDelta();
+        return rCore.GetMousePosition();
     }
 
     public static void registerInput() {

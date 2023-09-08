@@ -60,7 +60,7 @@ public class Player extends Entity{
         }
 
         //do gravity
-        this.getVelocity().y += Main.world.getGravity()/20;
+        this.getVelocity().y += (float) (Main.world.getGravity()/20);
 
         //Add the rect position with the velocity
         this.getRect().x += this.getVelocity().x;

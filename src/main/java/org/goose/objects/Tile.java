@@ -2,14 +2,25 @@ package org.goose.objects;
 
 //representative of a tile
 
+import com.raylib.java.shapes.Rectangle;
+
 public abstract class Tile {
 
     private int x;
     private int y;
     private int sizeX;
     private int sizeY;
+    private Rectangle rect;
 
     private boolean gravity;
+
+    public Rectangle getRect() {
+        return rect;
+    }
+
+    public void setRect(Rectangle rect) {
+        this.rect = rect;
+    }
 
     public int getX() {
         return x;

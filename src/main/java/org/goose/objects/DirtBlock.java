@@ -14,7 +14,6 @@ import java.net.URISyntaxException;
 public class DirtBlock extends Tile {
 
     private static Texture2D texture;
-    private Rectangle rect;
 
     public static void initTexture() {
         texture = TextureLoader.loadTexture("textures/dirt_block.png");
@@ -29,7 +28,7 @@ public class DirtBlock extends Tile {
     }
 
     public DirtBlock(int x, int y, int size) {
-        rect = new Rectangle(x, y, size, size);
+        this.setRect(new Rectangle(x, y, size, size));
         setSizeY(size);
         setSizeX(size);
         setX(x);
