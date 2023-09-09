@@ -77,11 +77,10 @@ public class World {
                 for(String object : stringList) {
                     //this will be every tile on each line
                     int tileNumber = Integer.parseInt(object);
-
                     if (tileNumber == 3) {
-                        tileMap.put(new Vector2(horizontalCounter, counter), new DirtBlock(horizontalCounter * width/32, counter * width/32,width/32));
+                        tileMap.put(new Vector2(horizontalCounter, counter), new DirtBlock(horizontalCounter * (width/32), counter * (width/32),width/32));
                     } else if (tileNumber == 6) {
-                        tileMap.put(new Vector2(horizontalCounter, counter), new GrassBlock(horizontalCounter * width/32, counter * width/32,width/32));
+                        tileMap.put(new Vector2(horizontalCounter, counter), new GrassBlock(horizontalCounter * (width/32), counter * (width/32),width/32));
                     }
                     horizontalCounter++;
                 }

@@ -21,12 +21,15 @@ public class Renderer {
     public static int targetFPS = 90; //Visual FPS
     public static int targetTPS = 120;
 
-    private static int windowWidth = 1920;
-    private static int windowHeight = 1080;
+    private static int windowWidth = 0; //gets set at load time
+    private static int windowHeight = 0;
 
     public static void init() {
         rCore.SetConfigFlags(Config.ConfigFlag.FLAG_FULLSCREEN_MODE);
         renderer.core.InitWindow(windowWidth,windowHeight, "Platformer");
+        windowWidth = rCore.GetScreenWidth();
+        windowHeight = rCore.GetScreenHeight();
+        renderer.core.SetWindowSize(windowWidth,windowHeight);
         renderer.core.SetTargetFPS(targetFPS);
         renderer.core.SetExitKey(Keyboard.KEY_ESCAPE);
     }
