@@ -19,7 +19,7 @@ public class Renderer {
     public static boolean drawFPS = false;
     public static Camera2D camera = new Camera2D();
     public static int targetFPS = 90; //Visual FPS
-    public static int targetTPS = 120;
+    public static int targetTPS = 256;
 
     private static int windowWidth = 0; //gets set at load time
     private static int windowHeight = 0;
@@ -74,7 +74,7 @@ public class Renderer {
 
         Renderer.renderWorld(world);
         Renderer.renderer.text.DrawText("FPS: " + rCore.GetFPS(), 0,0, 30, Color.RED);
-        Renderer.renderer.text.DrawText("eeee: " + Main.world.tileMap.get(new Vector2(0,3)), 0,40, 30, Color.YELLOW);
+        Renderer.renderer.text.DrawText("Player Velocity: " + Main.world.entities.get(0).getVelocity().x + ", " + Main.world.entities.get(0).getVelocity().y, 0,40, 30, Color.YELLOW);
         Renderer.renderer.text.DrawText("Mouse Position: " + Input.getMousePosition().x + "," + Input.getMousePosition().y, 0, 80, 30, Color.GREEN);
 
         Rectangle rectangle = new Rectangle(Input.getMousePosition().x, Input.getMousePosition().y, 25,25);

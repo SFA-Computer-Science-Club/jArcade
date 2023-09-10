@@ -32,7 +32,7 @@ public class World {
         this.backGroundColor = backGroundColor;
     }
 
-    private double gravity = 1;
+    private double gravity = 25/100d;
 
     public double getGravity() {
         return gravity;

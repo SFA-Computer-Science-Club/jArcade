@@ -39,7 +39,7 @@ public class Input {
         if (isKeyPressed(Keyboard.KEY_D) || isKeyHeld(Keyboard.KEY_D)) {
             pressedKeys.add(Keyboard.KEY_D);
         }
-        if (isKeyPressed(Keyboard.KEY_SPACE) || isKeyHeld(Keyboard.KEY_SPACE)) {
+        if (isKeyPressed(Keyboard.KEY_SPACE)) {
             pressedKeys.add(Keyboard.KEY_SPACE);
         }
     }
