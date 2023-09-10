@@ -9,7 +9,11 @@ import java.util.ArrayList;
 public class Input {
     //input class used to help simplify user input
 
+    /**
+     * Will be cleared after the first update of a game loop, only runs once
+     */
     public static ArrayList<Integer> pressedKeys = new ArrayList<>();
+    public static ArrayList<Integer> heldKeys = new ArrayList<>();
 
     public static boolean isKeyHeld(int key) {
         if (!Renderer.renderer.core.IsKeyUp(key)) {
@@ -32,15 +36,15 @@ public class Input {
 
     public static void registerInput() {
         pressedKeys.clear();
+        heldKeys.clear();
         //called before each frame to get the input
-        if (isKeyPressed(Keyboard.KEY_A) || isKeyHeld(Keyboard.KEY_A)) {
-            pressedKeys.add(Keyboard.KEY_A);
-        }
-        if (isKeyPressed(Keyboard.KEY_D) || isKeyHeld(Keyboard.KEY_D)) {
-            pressedKeys.add(Keyboard.KEY_D);
-        }
-        if (isKeyPressed(Keyboard.KEY_SPACE)) {
-            pressedKeys.add(Keyboard.KEY_SPACE);
+        for (int i = 31; i < 337; i++) {
+            if (isKeyHeld(i)) {
+                heldKeys.add(i);
+            }
+            if (isKeyPressed(i)) {
+                pressedKeys.add(i);
+            }
         }
     }
 }

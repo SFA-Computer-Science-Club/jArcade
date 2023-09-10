@@ -62,6 +62,7 @@ public class Main {
             while (accumulator > targetTPS) {
                 Physics.tick(targetTPS); //Calculate physics, movement, AI etc
                 accumulator -= targetTPS;
+                Input.pressedKeys.clear();
             }
 
             Renderer.render(world); //Update everything

@@ -33,10 +33,10 @@ public class Player extends Entity{
     @Override
     public void tick(double delta) {
         //do things like collision detecting, gravity, etc here
-        if (Input.pressedKeys.contains(Keyboard.KEY_A)) {
+        if (Input.pressedKeys.contains(Keyboard.KEY_A) || Input.heldKeys.contains(Keyboard.KEY_A)) {
             this.getVelocity().x -= 8;
         }
-        if (Input.pressedKeys.contains(Keyboard.KEY_D)) {
+        if (Input.pressedKeys.contains(Keyboard.KEY_D) || Input.heldKeys.contains(Keyboard.KEY_D)) {
             this.getVelocity().x += 8;
         }
 
@@ -54,13 +54,13 @@ public class Player extends Entity{
         }
 
         //do friction
-        if (this.getVelocity().x < 0 && !Input.pressedKeys.contains(Keyboard.KEY_A)) {
+        if (this.getVelocity().x < 0 && !Input.heldKeys.contains(Keyboard.KEY_A)) {
             this.getVelocity().x += 0.1;
             if (Math.abs(this.getVelocity().x) < 0.1) {
                 this.getVelocity().x = 0;
             }
         }
-        if (this.getVelocity().x > 0 && !Input.pressedKeys.contains(Keyboard.KEY_D)) {
+        if (this.getVelocity().x > 0 && !Input.heldKeys.contains(Keyboard.KEY_D)) {
             this.getVelocity().x -= 0.1;
             if (Math.abs(this.getVelocity().x) < 0.1) {
                 this.getVelocity().x = 0;

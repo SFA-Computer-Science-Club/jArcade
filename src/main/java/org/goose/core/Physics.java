@@ -35,7 +35,7 @@ public class Physics {
         return collided;
     }
 
-    public static ArrayList<Tile> entityCollided(Rectangle rectangle) {
+    public static ArrayList<Tile> rectCollided(Rectangle rectangle) {
         //returns all things that an entity is colliding with (player/mob/whatever)
         ArrayList<Tile> collided = new ArrayList<>();
         for (Vector2 vector2 : Main.world.tileMap.keySet()) {
