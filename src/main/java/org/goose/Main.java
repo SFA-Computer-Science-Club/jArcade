@@ -9,6 +9,8 @@ import com.raylib.java.raymath.Vector2;
 import com.raylib.java.textures.Image;
 import com.raylib.java.textures.Texture2D;
 import org.goose.core.*;
+import org.goose.level.Level;
+import org.goose.level.MenuScreen;
 import org.goose.level.World;
 import org.goose.objects.DirtBlock;
 import org.goose.objects.GrassBlock;
@@ -21,25 +23,29 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.SQLOutput;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 
 public class Main {
 
     public static World world = new World();
+    public static MenuScreen menuScreen = new MenuScreen();
 
-    public static void main(String[] args) throws IOException, URISyntaxException {
+    public static ArrayList<Level> worldList = new ArrayList<>();
+
+    public static void main(String[] args) throws IOException {
         Renderer.init();
 
         //Go through and initialize our textures
+        worldList.add(world);
+        worldList.add(menuScreen);
+
+        //init menu
+        menuScreen.setEnabled(true);
 
         DirtBlock.initTexture();
         GrassBlock.initTexture();
-
-        world.loadWorldFromCSV("levels/TestMap.csv");
-
-        Player player = new Player(100,100);
-        world.entities.add(player);
 
         Image image = TextureLoader.loadImage("textures/dirt_block.png");
         Renderer.renderer.core.SetWindowIcon(image);
@@ -65,7 +71,12 @@ public class Main {
                 Input.pressedKeys.clear();
             }
 
-            Renderer.render(world); //Update everything
+            for (Level level : Main.worldList) {
+                if (level.isEnabled()) {
+                    Renderer.render(level);
+                }
+            }
+
         }
     }
 }

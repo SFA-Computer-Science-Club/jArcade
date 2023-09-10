@@ -2,9 +2,12 @@ package org.goose.core;
 
 import com.raylib.java.core.Color;
 import com.raylib.java.core.input.Keyboard;
+import com.raylib.java.core.rCore;
+import com.raylib.java.raymath.Point;
 import com.raylib.java.raymath.Vector2;
 import com.raylib.java.shapes.Rectangle;
 import org.goose.Main;
+import org.goose.level.Level;
 import org.goose.objects.Entity;
 import org.goose.objects.Tile;
 
@@ -19,7 +22,11 @@ public class Physics {
             Renderer.drawFPS = !Renderer.drawFPS;
         }
 
-        Main.world.tick(deltaTime);
+        for (Level level : Main.worldList) {
+            if (level.isEnabled()) {
+                level.tick(deltaTime);
+            }
+        }
     }
 
     //collision related mechanics
@@ -45,5 +52,20 @@ public class Physics {
             }
         }
         return collided;
+    }
+
+    public static boolean rectCollided(Rectangle rect1, Rectangle rect2) {
+        //returns all things that an entity is colliding with (player/mob/whatever)
+        if (Renderer.renderer.shapes.CheckCollisionRecs(rect1,rect2)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean pointCollidingRect(Rectangle rect1, Vector2 point) {
+        if (Renderer.renderer.shapes.CheckCollisionPointRec(point, rect1)) {
+            return  true;
+        }
+        return false;
     }
 }

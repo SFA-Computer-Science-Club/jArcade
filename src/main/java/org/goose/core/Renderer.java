@@ -9,9 +9,12 @@ import com.raylib.java.core.rcamera.Camera2D;
 import com.raylib.java.raymath.Vector2;
 import com.raylib.java.shapes.Rectangle;
 import org.goose.Main;
+import org.goose.level.Level;
 import org.goose.level.World;
 import org.goose.objects.Entity;
 import org.goose.objects.Tile;
+
+import java.io.IOException;
 
 public class Renderer {
 
@@ -53,43 +56,17 @@ public class Renderer {
         renderer.core.EndDrawing();
     }
 
-    public static void renderWorld(World world) {
+    public static void renderWorld(Level level) throws IOException {
         //draw sky first
-        renderer.core.ClearBackground(world.getBackGroundColor());
+        renderer.core.ClearBackground(Color.GRAY);
+        level.render(1);
 
-        //goes through all of the objects and renders them
-        for (Vector2 vector : world.tileMap.keySet()) {
-            Tile tile = world.tileMap.get(vector);
-            tile.render();
-        }
-
-        //after map is rendered, render player/entities
-        for(Entity entity : world.entities) {
-            entity.render();
-        }
     }
 
-    public static void render(World world) {
+    public static void render(Level world) throws IOException {
         Renderer.renderBegin();
 
         Renderer.renderWorld(world);
-        Renderer.renderer.text.DrawText("FPS: " + rCore.GetFPS(), 0,0, 30, Color.RED);
-        Renderer.renderer.text.DrawText("Player Velocity: " + Main.world.entities.get(0).getVelocity().x + ", " + Main.world.entities.get(0).getVelocity().y, 0,40, 30, Color.YELLOW);
-        Renderer.renderer.text.DrawText("Mouse Position: " + Input.getMousePosition().x + "," + Input.getMousePosition().y, 0, 80, 30, Color.GREEN);
-
-        Rectangle rectangle = new Rectangle(Input.getMousePosition().x, Input.getMousePosition().y, 25,25);
-        for (Vector2 vector2 : Main.world.tileMap.keySet()) {
-            Tile tile = Main.world.tileMap.get(vector2);
-            if (renderer.shapes.CheckCollisionRecs(tile.getRect(), rectangle)) {
-                Renderer.renderer.shapes.DrawRectangle((int) rectangle.x, (int) rectangle.y, (int) rectangle.width, (int) rectangle.height, Color.RED);
-                break;
-            } else {
-                Renderer.renderer.shapes.DrawRectangle((int) rectangle.x, (int) rectangle.y, (int) rectangle.width, (int) rectangle.height, Color.BLUE);
-            }
-        }
-
-
-        //The above line makes a rectangle follow your cursor, cool stuff.
 
         Renderer.renderEnd();
     }
