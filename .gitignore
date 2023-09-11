@@ -1,4 +1,5 @@
 
 *.jar
+build/
 build/libs/PlatformerTest-1.0-SNAPSHOT.jar
 src/libs/Raylib-J_DEV-0.5.jar

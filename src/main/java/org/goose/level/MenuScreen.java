@@ -1,6 +1,9 @@
 package org.goose.level;
 
+import com.raylib.java.Config;
 import com.raylib.java.core.Color;
+import com.raylib.java.core.input.Keyboard;
+import com.raylib.java.core.rCore;
 import com.raylib.java.raymath.Vector2;
 import com.raylib.java.shapes.Rectangle;
 import org.goose.core.Input;
@@ -15,7 +18,7 @@ import java.io.IOException;
 import static org.goose.Main.world;
 
 public class MenuScreen extends Level{
-    TextLabel label = new TextLabel("Ho", 300,100, 25, new Vector2(600,600), Color.BLUE, Color.WHITE);
+    TextLabel label = new TextLabel("You can make a really long piece of text that goes on forever", 250,100, 20, new Vector2(600,600), Color.WHITE, Color.BLACK);
 
     public void startGame() throws IOException {
         world.loadWorldFromCSV("levels/TestMap.csv");
@@ -53,6 +56,15 @@ public class MenuScreen extends Level{
 
     @Override
     public void tick(double delta) {
-
+        if (Input.pressedKeys.contains(Keyboard.KEY_F2)) {
+            label.setTransparency(0);
+        }
+        if (Input.pressedKeys.contains(Keyboard.KEY_F11)) {
+            if (rCore.IsWindowFullscreen()) {
+                Renderer.renderer.core.SetWindowState(Config.ConfigFlag.FLAG_WINDOW_MAXIMIZED);
+            } else {
+                Renderer.renderer.core.ToggleFullscreen();
+            }
+        }
     }
 }

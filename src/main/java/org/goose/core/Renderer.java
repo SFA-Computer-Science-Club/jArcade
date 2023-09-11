@@ -28,7 +28,7 @@ public class Renderer {
     private static int windowHeight = 0;
 
     public static void init() {
-        rCore.SetConfigFlags(Config.ConfigFlag.FLAG_FULLSCREEN_MODE);
+        rCore.SetConfigFlags(Config.ConfigFlag.FLAG_WINDOW_MAXIMIZED);
         renderer.core.InitWindow(windowWidth,windowHeight, "Platformer");
         windowWidth = rCore.GetScreenWidth();
         windowHeight = rCore.GetScreenHeight();

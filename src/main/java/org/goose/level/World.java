@@ -13,13 +13,13 @@ import org.goose.objects.Entity;
 import org.goose.objects.GrassBlock;
 import org.goose.objects.Tile;
 
-import java.awt.*;
-import java.io.*;
-import java.nio.file.Files;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Scanner;
 
 public class World extends Level{
     public HashMap<Vector2, Tile> tileMap = new HashMap<>();

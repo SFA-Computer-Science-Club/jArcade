@@ -1,21 +1,11 @@
 package org.goose.core;
 
-import com.raylib.java.Config;
 import com.raylib.java.textures.Image;
 import com.raylib.java.textures.Texture2D;
 import com.raylib.java.textures.rTextures;
-import com.raylib.java.utils.FileIO;
-import com.raylib.java.utils.Tracelog;
 import org.goose.Main;
-import org.lwjgl.glfw.GLFWImage;
 
 import java.io.InputStream;
-import java.nio.ByteBuffer;
-import java.util.Arrays;
-
-import org.lwjgl.glfw.GLFW.*;
-
-import static org.lwjgl.glfw.GLFW.glfwSetWindowIcon;
 
 public class TextureLoader {
     public static byte[] fileReader(String path) {

@@ -2,14 +2,12 @@ package org.goose.objects;
 
 import com.raylib.java.core.Color;
 import com.raylib.java.core.input.Keyboard;
-import com.raylib.java.raymath.Vector2;
 import com.raylib.java.shapes.Rectangle;
 import org.goose.Main;
 import org.goose.core.Input;
 import org.goose.core.Physics;
 import org.goose.core.Renderer;
 
-import java.security.Key;
 import java.util.ArrayList;
 
 public class Player extends Entity{
