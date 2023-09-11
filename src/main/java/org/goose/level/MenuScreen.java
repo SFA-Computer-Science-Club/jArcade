@@ -6,6 +6,7 @@ import com.raylib.java.shapes.Rectangle;
 import org.goose.core.Input;
 import org.goose.core.Physics;
 import org.goose.core.Renderer;
+import org.goose.core.gui.TextLabel;
 import org.goose.objects.Player;
 import com.raylib.java.text.rText;
 
@@ -14,6 +15,7 @@ import java.io.IOException;
 import static org.goose.Main.world;
 
 public class MenuScreen extends Level{
+    TextLabel label = new TextLabel("Ho", 300,100, 25, new Vector2(600,600), Color.BLUE, Color.WHITE);
 
     public void startGame() throws IOException {
         world.loadWorldFromCSV("levels/TestMap.csv");
@@ -46,6 +48,7 @@ public class MenuScreen extends Level{
             Renderer.renderer.text.DrawText("Start: World", (int) rect.x+50, (int) rect.y+30, 25, Color.WHITE);
         }
 
+        label.render(delta);
     }
 
     @Override
