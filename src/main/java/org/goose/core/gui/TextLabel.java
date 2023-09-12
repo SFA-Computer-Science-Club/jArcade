@@ -166,7 +166,7 @@ public class TextLabel extends Element{
 
     public void setTransparency(int transparency) {
         this.transparency = transparency;
-        this.backgroundColor.setA((transparency/100) * 255);
+        this.backgroundColor.setA((int)(((float)transparency/100)* 255));
     }
 
     public int getFontSize() {

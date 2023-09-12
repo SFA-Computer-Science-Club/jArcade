@@ -14,6 +14,8 @@ public class Input {
      */
     public static ArrayList<Integer> pressedKeys = new ArrayList<>();
     public static ArrayList<Integer> heldKeys = new ArrayList<>();
+    public static ArrayList<Integer> renderPressedKeys = new ArrayList<>();
+    public static ArrayList<Integer> charPressedKeys = new ArrayList<>();
 
     public static boolean isKeyHeld(int key) {
         if (!Renderer.renderer.core.IsKeyUp(key)) {
@@ -30,6 +32,7 @@ public class Input {
         return false;
     }
 
+
     public static Vector2 getMousePosition() {
         return rCore.GetMousePosition();
     }
@@ -37,15 +40,23 @@ public class Input {
     public static void registerInput() {
         pressedKeys.clear();
         heldKeys.clear();
+        renderPressedKeys.clear();
+        charPressedKeys.clear();
         //called before each frame to get the input
+        charPressedKeys.add(Renderer.renderer.core.GetCharPressed());
         for (int i = 31; i < 337; i++) {
             if (isKeyHeld(i)) {
                 heldKeys.add(i);
             }
             if (isKeyPressed(i)) {
                 pressedKeys.add(i);
+                renderPressedKeys.add(i);
             }
         }
+    }
+
+    public static boolean isKeyDown(int key) {
+        return !Renderer.renderer.core.IsKeyUp(key);
     }
 
     public static boolean isLeftMouseClicked() {
