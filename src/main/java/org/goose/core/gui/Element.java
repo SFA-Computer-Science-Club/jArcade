@@ -9,6 +9,17 @@ public abstract class Element {
     private Vector2 position = new Vector2();
     private boolean visible = false;
     public abstract void render(double deltaTime);
+    public enum TextCenter {
+        TOP_LEFT,
+        TOP_CENTER,
+        TOP_RIGHT,
+        MIDDLE_LEFT,
+        MIDDLE_CENTER,
+        MIDDLE_RIGHT,
+        BOTTOM_LEFT,
+        BOTTOM_MIDDLE,
+        BOTTOM_RIGHT
+    }
 
     public boolean isVisible() {
         return visible;
