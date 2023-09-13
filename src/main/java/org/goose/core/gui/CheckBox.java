@@ -1,0 +1,60 @@
+package org.goose.core.gui;
+
+import com.raylib.java.core.Color;
+import com.raylib.java.raymath.Vector2;
+import com.raylib.java.shapes.Rectangle;
+import com.raylib.java.shapes.rShapes;
+import org.goose.core.Input;
+import org.goose.core.Physics;
+import org.goose.core.Time;
+
+public class CheckBox extends TextLabel {
+    Rectangle checkRect;
+    Rectangle textRect;
+
+    boolean checked = false;
+
+    public CheckBox(String text, int width, int height, int fontSize, Vector2 position, Color backgroundColor, Color textColor) {
+        super(text, width, height, fontSize, position, backgroundColor, textColor);
+        checkRect = new Rectangle(position.x + (rect.getWidth()/8), position.y + (rect.getHeight()/4), (rect.getWidth()/4), rect.getHeight()/2);
+        textRect = new Rectangle(position.x + (rect.getWidth()/2), position.y + (rect.getHeight()/4), rect.getWidth()/2 - (rect.getWidth()/20), rect.getHeight()/2);
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+
+    double lastCheckedTime = Time.now();
+    double checkCoolDown = 200; //milliseconds
+
+    @Override
+    public void render(double delta) {
+        rShapes.DrawRectangleRec(rect, getBackgroundColor());
+
+        if (Physics.pointCollidingRect(checkRect, Input.getMousePosition())) {
+            Color darkerColor = new Color(getTextColor().getR(), getTextColor().getG(), getTextColor().getB(), (int)(getTextColor().getA()*.7));
+            rShapes.DrawRectangleRec(checkRect, darkerColor);
+            if (Time.now() - lastCheckedTime > checkCoolDown) {
+                if (Input.isLeftMouseClicked() && !isChecked()) {
+                    setChecked(true);
+                    lastCheckedTime = Time.now();
+                } else if (Input.isLeftMouseClicked() && isChecked()) {
+                    lastCheckedTime = Time.now();
+                    setChecked(false);
+                }
+            }
+        } else {
+            rShapes.DrawRectangleRec(checkRect, getTextColor());
+        }
+
+        if (isChecked()) {
+            TextLabel.DrawTextBoxRestricted(checkRect, getFontSize()*2, "X", this, Color.BLACK);
+        }
+
+        TextLabel.DrawTextBoxRestricted(textRect, getFontSize(), getText(), this);
+    }
+}

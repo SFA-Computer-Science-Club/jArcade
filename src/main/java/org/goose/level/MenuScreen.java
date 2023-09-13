@@ -9,6 +9,7 @@ import com.raylib.java.shapes.Rectangle;
 import org.goose.core.Input;
 import org.goose.core.Physics;
 import org.goose.core.Renderer;
+import org.goose.core.gui.CheckBox;
 import org.goose.core.gui.TextBox;
 import org.goose.core.gui.TextButton;
 import org.goose.core.gui.TextLabel;
@@ -22,7 +23,8 @@ import static org.goose.Main.world;
 public class MenuScreen extends Level{
     TextLabel label = new TextLabel("You can make a really long piece of text that goes on forever", 250,100, 20, new Vector2(600,600), Color.WHITE, Color.BLACK);
     TextBox textBox = new TextBox("Type me", 250, 100, 30, new Vector2(600,800), Color.BLUE, Color.WHITE);
-    TextButton textButton = new TextButton("Click me", 250,100,30, new Vector2(600,910), Color.BLUE, Color.WHITE);
+    TextButton textButton = new TextButton("Click me", 250,100,30, new Vector2(600,910 ), Color.BLUE, Color.WHITE);
+    CheckBox checkBox = new CheckBox("Checkbox", 250,100,25, new Vector2(1000,600), Color.BLUE, Color.WHITE);
 
     public void startGame() throws IOException {
         world.loadWorldFromCSV("levels/TestMap.csv");
@@ -58,6 +60,7 @@ public class MenuScreen extends Level{
         label.render(delta);
         textBox.render(delta);
         textButton.render(delta);
+        checkBox.render(delta);
     }
 
     @Override
