@@ -60,9 +60,6 @@ public class Input {
     }
 
     public static boolean isLeftMouseClicked() {
-        if (rCore.IsMouseButtonDown(0)) {
-            return true;
-        }
-        return false;
+        return rCore.IsMouseButtonDown(0);
     }
 }

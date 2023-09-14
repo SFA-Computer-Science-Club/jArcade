@@ -8,6 +8,7 @@ import org.goose.Main;
 import org.goose.core.Input;
 import org.goose.core.Physics;
 import org.goose.core.Renderer;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 
@@ -27,13 +28,13 @@ public class Player extends Entity{
     @Override
     public void render() {
         Renderer.renderer.shapes.DrawRectangle((int)getRect().x, (int)getRect().y, (int)getRect().width, (int)getRect().height, Color.WHITE);
-        //Renderer.renderer.text.DrawText("Movement: "+ Renderer.renderer.core.GetGamepadAxisMovement(0, 4), 0,400,40, Color.RED);
+        //Renderer.renderer.text.DrawText("Movement: "+ Renderer.renderer.core.GetGamepadAxisCount(0), 0,400,40, Color.RED);
     }
 
     @Override
     public void tick(double delta) {
         //do things like collision detecting, gravity, etc here
-        if (Input.pressedKeys.contains(Keyboard.KEY_A) || Input.heldKeys.contains(Keyboard.KEY_A) || Renderer.renderer.core.GetGamepadAxisMovement(1, 0) > 0.01) {
+        if (Input.pressedKeys.contains(Keyboard.KEY_A) || Input.heldKeys.contains(Keyboard.KEY_A) || Renderer.renderer.core.GetGamepadAxisMovement(1, 0) != 0) {
             this.getVelocity().x -= 8;
         }
         if (Input.pressedKeys.contains(Keyboard.KEY_D) || Input.heldKeys.contains(Keyboard.KEY_D)) {

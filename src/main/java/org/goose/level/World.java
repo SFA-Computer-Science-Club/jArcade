@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import static com.raylib.java.core.input.Gamepad.GamepadButton.GAMEPAD_BUTTON_UNKNOWN;
+
 public class World extends Level{
     public HashMap<Vector2, Tile> tileMap = new HashMap<>();
 
@@ -66,8 +68,16 @@ public class World extends Level{
 
         Renderer.renderer.text.DrawText("FPS: " + rCore.GetFPS(), 0,0, 30, Color.RED);
         Renderer.renderer.text.DrawText("Player Velocity: " + Main.world.entities.get(0).getVelocity().x + ", " + Main.world.entities.get(0).getVelocity().y, 0,40, 30, Color.YELLOW);
-        Renderer.renderer.text.DrawText("Mouse Position: " + Input.getMousePosition().x + "," + Input.getMousePosition().y, 0, 80, 30, Color.GREEN);
+        //Renderer.renderer.text.DrawText("Mouse Position: " + Input.getMousePosition().x + "," + Input.getMousePosition().y, 0, 80, 30, Color.GREEN);
 
+        Renderer.renderer.text.DrawText("GAMEPAD: " + Renderer.renderer.core.GetGamepadName(0), 100, 90, 30, Color.BLUE);
+        for (int i = 0; i < Renderer.renderer.core.GetGamepadAxisCount(0); i++) {
+            Renderer.renderer.text.DrawText("AXIS: " + i + ": " + Renderer.renderer.core.GetGamepadAxisMovement(0, i), 100, 100 + 30*i, 30, Color.RED);
+        }
+        if (Renderer.renderer.core.GetGamepadButtonPressed() != 0) {
+            Renderer.renderer.text.DrawText("BUTTON: " + Renderer.renderer.core.GetGamepadButtonPressed(), 100, 350, 30, Color.RED);
+
+        }
         com.raylib.java.shapes.Rectangle rectangle = new Rectangle(Input.getMousePosition().x, Input.getMousePosition().y, 25,25);
         for (Vector2 vector2 : Main.world.tileMap.keySet()) {
             Tile tile = Main.world.tileMap.get(vector2);
