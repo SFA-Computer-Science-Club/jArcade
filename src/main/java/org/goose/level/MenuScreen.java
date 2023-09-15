@@ -34,8 +34,13 @@ public class MenuScreen extends Level{
         this.setEnabled(false);
     }
 
+    public MenuScreen() {
+        setBackGroundColor(Color.LIGHTGRAY);
+    }
+
     @Override
     public void render(double delta) throws IOException {
+        Renderer.renderer.core.ClearBackground(getBackGroundColor());
         int centerX = (Renderer.getWindowWidth()/2);
         int centerY = (Renderer.getWindowHeight()/2);
 

@@ -1,13 +1,16 @@
 package org.goose.level;
 
+import com.raylib.java.Config;
 import com.raylib.java.core.Color;
 import com.raylib.java.core.input.Keyboard;
 import com.raylib.java.core.rCore;
 import com.raylib.java.raymath.Vector2;
 import com.raylib.java.shapes.Rectangle;
+import com.studiohartman.jamepad.ControllerUnpluggedException;
 import org.goose.Main;
 import org.goose.core.Input;
 import org.goose.core.Renderer;
+import org.goose.core.gui.CheckBox;
 import org.goose.objects.DirtBlock;
 import org.goose.objects.Entity;
 import org.goose.objects.GrassBlock;
@@ -21,22 +24,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import static com.raylib.java.core.input.Gamepad.GamepadButton.GAMEPAD_BUTTON_UNKNOWN;
-
 public class World extends Level{
     public HashMap<Vector2, Tile> tileMap = new HashMap<>();
+    public boolean devMode = false;
 
     public ArrayList<Entity> entities = new ArrayList<>(); //holds all players, or entities
 
-    private Color backGroundColor = Color.GRAY;
-
-    public Color getBackGroundColor() {
-        return backGroundColor;
-    }
-
-    public void setBackGroundColor(Color backGroundColor) {
-        this.backGroundColor = backGroundColor;
-    }
+    CheckBox checkBox = new CheckBox("Gravity", 300,125,30, new Vector2(0,0), Color.WHITE, Color.BLACK);
 
     private double gravity = 25/100d;
 
@@ -49,11 +43,13 @@ public class World extends Level{
     }
 
     public World() {
-
+        checkBox.setTransparency(1);
+        setBackGroundColor(Color.GRAY);
     }
 
     @Override
     public void render(double delta) {
+        Renderer.renderer.core.ClearBackground(getBackGroundColor());
 
         //goes through all of the objects and renders them
         for (Vector2 vector : this.tileMap.keySet()) {
@@ -66,32 +62,21 @@ public class World extends Level{
             entity.render();
         }
 
-        Renderer.renderer.text.DrawText("FPS: " + rCore.GetFPS(), 0,0, 30, Color.RED);
-        Renderer.renderer.text.DrawText("Player Velocity: " + Main.world.entities.get(0).getVelocity().x + ", " + Main.world.entities.get(0).getVelocity().y, 0,40, 30, Color.YELLOW);
-        //Renderer.renderer.text.DrawText("Mouse Position: " + Input.getMousePosition().x + "," + Input.getMousePosition().y, 0, 80, 30, Color.GREEN);
-
-        Renderer.renderer.text.DrawText("GAMEPAD: " + Renderer.renderer.core.GetGamepadName(0), 100, 90, 30, Color.BLUE);
-        for (int i = 0; i < Renderer.renderer.core.GetGamepadAxisCount(0); i++) {
-            Renderer.renderer.text.DrawText("AXIS: " + i + ": " + Renderer.renderer.core.GetGamepadAxisMovement(0, i), 100, 100 + 30*i, 30, Color.RED);
-        }
-        if (Renderer.renderer.core.GetGamepadButtonPressed() != 0) {
-            Renderer.renderer.text.DrawText("BUTTON: " + Renderer.renderer.core.GetGamepadButtonPressed(), 100, 350, 30, Color.RED);
-
-        }
-        com.raylib.java.shapes.Rectangle rectangle = new Rectangle(Input.getMousePosition().x, Input.getMousePosition().y, 25,25);
-        for (Vector2 vector2 : Main.world.tileMap.keySet()) {
-            Tile tile = Main.world.tileMap.get(vector2);
-            if (Renderer.renderer.shapes.CheckCollisionRecs(tile.getRect(), rectangle)) {
-                Renderer.renderer.shapes.DrawRectangle((int) rectangle.x, (int) rectangle.y, (int) rectangle.width, (int) rectangle.height, Color.RED);
-                break;
-            } else {
-                Renderer.renderer.shapes.DrawRectangle((int) rectangle.x, (int) rectangle.y, (int) rectangle.width, (int) rectangle.height, Color.BLUE);
-            }
+        if (devMode) {
+            checkBox.render(delta);
         }
     }
 
     @Override
     public void tick(double deltaTime) {
+        if (checkBox.isChecked()) {
+            if (gravity != 0) {
+                setGravity(0);
+            } else {
+                gravity = 25/100d;
+            }
+        }
+
         for (Entity entity : entities) {
             entity.tick(deltaTime);
         }
@@ -102,10 +87,27 @@ public class World extends Level{
         if (Input.heldKeys.contains(Keyboard.KEY_LEFT)) {
             Renderer.camera.target.x += 1;
         }
+
+        if (Input.pressedKeys.contains(Keyboard.KEY_F11)) {
+            if (rCore.IsWindowFullscreen()) {
+                Renderer.renderer.core.SetWindowState(Config.ConfigFlag.FLAG_WINDOW_MAXIMIZED);
+            } else {
+                Renderer.renderer.core.ToggleFullscreen();
+            }
+        }
+
+        if (Input.pressedKeys.contains(Keyboard.KEY_F10)) {
+            devMode = !devMode;
+        }
     }
 
-    
 
+    /**
+     * Loads world from a CSV file at a path, will probably support string-names instead of blockIDs
+     * when loading to improve clarity
+     * @param path
+     * @throws IOException
+     */
     public void loadWorldFromCSV(String path) throws IOException {
         //clear old map and load the new map, allows a world to have map changed mid-game
         tileMap.clear();

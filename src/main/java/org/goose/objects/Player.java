@@ -1,14 +1,14 @@
 package org.goose.objects;
 
 import com.raylib.java.core.Color;
-import com.raylib.java.core.input.Gamepad;
 import com.raylib.java.core.input.Keyboard;
 import com.raylib.java.shapes.Rectangle;
+import com.studiohartman.jamepad.ControllerButton;
+import com.studiohartman.jamepad.ControllerIndex;
 import org.goose.Main;
 import org.goose.core.Input;
 import org.goose.core.Physics;
 import org.goose.core.Renderer;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 
@@ -34,6 +34,19 @@ public class Player extends Entity{
     @Override
     public void tick(double delta) {
         //do things like collision detecting, gravity, etc here
+        try {
+            if (Input.controllerManager.getNumControllers() > 0) {
+                ControllerIndex currentController = Input.controllerManager.getControllerIndex(0);
+
+                if (currentController.isButtonPressed(ControllerButton.A)) {
+                    System.out.println("Pressed");
+
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         if (Input.pressedKeys.contains(Keyboard.KEY_A) || Input.heldKeys.contains(Keyboard.KEY_A) || Renderer.renderer.core.GetGamepadAxisMovement(1, 0) != 0) {
             this.getVelocity().x -= 8;
         }

@@ -52,7 +52,7 @@ public class CheckBox extends TextLabel {
         }
 
         if (isChecked()) {
-            TextLabel.DrawTextBoxRestricted(checkRect, getFontSize()*2, "X", this, Color.BLACK);
+            TextLabel.DrawTextBoxRestricted(checkRect, getFontSize() * 2, "X", this, new Color(getBackgroundColor().getR(), getBackgroundColor().getG(), getBackgroundColor().getB(), 255));
         }
 
         TextLabel.DrawTextBoxRestricted(textRect, getFontSize(), getText(), this);

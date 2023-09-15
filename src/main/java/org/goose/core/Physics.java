@@ -6,6 +6,7 @@ import com.raylib.java.core.rCore;
 import com.raylib.java.raymath.Point;
 import com.raylib.java.raymath.Vector2;
 import com.raylib.java.shapes.Rectangle;
+import com.studiohartman.jamepad.ControllerUnpluggedException;
 import org.goose.Main;
 import org.goose.level.Level;
 import org.goose.objects.Entity;
@@ -29,7 +30,14 @@ public class Physics {
         }
     }
 
-    //collision related mechanics
+    /**
+     * Returns a tile that an entity collided with, checks over tileset provided, returns empty
+     * arraylist if nothing is collided
+     * @param entity
+     * @return
+     */
+
+    //TODO Pass in the current tileset so it allows world-independent collision checking
     public static ArrayList<Tile> entityCollided(Entity entity) {
         //returns all things that an entity is colliding with (player/mob/whatever)
         ArrayList<Tile> collided = new ArrayList<>();
@@ -42,6 +50,12 @@ public class Physics {
         return collided;
     }
 
+    /**
+     * Checks if a rectangle collided with any tiles in the provided tileset, returns empty
+     * arraylist if no collisions occured
+     * @param rectangle
+     * @return
+     */
     public static ArrayList<Tile> rectCollided(Rectangle rectangle) {
         //returns all things that an entity is colliding with (player/mob/whatever)
         ArrayList<Tile> collided = new ArrayList<>();
@@ -54,18 +68,24 @@ public class Physics {
         return collided;
     }
 
+    /**
+     * Checks if two rects have collided
+     * @param rect1
+     * @param rect2
+     * @return
+     */
     public static boolean rectCollided(Rectangle rect1, Rectangle rect2) {
         //returns all things that an entity is colliding with (player/mob/whatever)
-        if (Renderer.renderer.shapes.CheckCollisionRecs(rect1,rect2)) {
-            return true;
-        }
-        return false;
+        return Renderer.renderer.shapes.CheckCollisionRecs(rect1, rect2);
     }
 
+    /**
+     * Check if a vector2 position is colliding with a rect
+     * @param rect1
+     * @param point
+     * @return
+     */
     public static boolean pointCollidingRect(Rectangle rect1, Vector2 point) {
-        if (Renderer.renderer.shapes.CheckCollisionPointRec(point, rect1)) {
-            return  true;
-        }
-        return false;
+        return Renderer.renderer.shapes.CheckCollisionPointRec(point, rect1);
     }
 }

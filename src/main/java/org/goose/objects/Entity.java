@@ -2,6 +2,7 @@ package org.goose.objects;
 
 import com.raylib.java.raymath.Vector2;
 import com.raylib.java.shapes.Rectangle;
+import com.studiohartman.jamepad.ControllerUnpluggedException;
 
 public abstract class Entity {
     //players, mobs, special things that may need this
@@ -14,6 +15,9 @@ public abstract class Entity {
 
     public Entity() {}
 
+    /**
+     * Called every frame rendering cycle, handles things like drawing and GUI elements
+     */
     public abstract void render();
 
     public Rectangle getRect() {
@@ -24,6 +28,10 @@ public abstract class Entity {
         this.rect = rect;
     }
 
+    /**
+     * Ticks the entity, used for game calculations
+     * @param delta
+     */
     public abstract void tick(double delta); //used for physics
 
     public Vector2 getPosition() {
@@ -34,10 +42,18 @@ public abstract class Entity {
         this.position = position;
     }
 
+    /**
+     * Returns velocity of the entity as a vector2
+     * @return
+     */
     public Vector2 getVelocity() {
         return velocity;
     }
 
+    /**
+     * Sets the velocity of an entity as a vector2
+     * @param velocity
+     */
     public void setVelocity(Vector2 velocity) {
         this.velocity = velocity;
     }

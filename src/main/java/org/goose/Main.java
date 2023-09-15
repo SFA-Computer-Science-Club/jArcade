@@ -24,6 +24,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         Renderer.init();
+        Input.init();
 
         //Go through and initialize our textures
         worldList.add(world);
@@ -31,13 +32,6 @@ public class Main {
 
         //init menu
         menuScreen.setEnabled(true);
-
-        DirtBlock.initTexture();
-        GrassBlock.initTexture();
-
-        Image image = TextureLoader.loadImage("textures/dirt_block.png");
-        Renderer.renderer.core.SetWindowIcon(image);
-        Time.setLastTime(Time.now());
 
         double accumulator = 0.0;
         double lastUpdateTime = Time.now();
@@ -64,7 +58,6 @@ public class Main {
                     Renderer.render(level);
                 }
             }
-
         }
     }
 }

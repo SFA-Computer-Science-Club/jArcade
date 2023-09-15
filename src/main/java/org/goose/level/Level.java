@@ -1,5 +1,9 @@
 package org.goose.level;
 
+import com.raylib.java.core.Color;
+import com.studiohartman.jamepad.ControllerUnpluggedException;
+
+import java.awt.*;
 import java.io.IOException;
 
 /**
@@ -8,6 +12,15 @@ import java.io.IOException;
  */
 public abstract class Level {
     private boolean enabled = false;
+    private Color backGroundColor;
+
+    public com.raylib.java.core.Color getBackGroundColor() {
+        return backGroundColor;
+    }
+
+    public void setBackGroundColor(com.raylib.java.core.Color backGroundColor) {
+        this.backGroundColor = backGroundColor;
+    }
 
     public boolean isEnabled() {
         return enabled;
