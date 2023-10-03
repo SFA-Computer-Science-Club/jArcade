@@ -1,16 +1,15 @@
-package org.goose.level;
+package org.goose.level.PlatformerGame;
 
 import com.raylib.java.Config;
 import com.raylib.java.core.Color;
 import com.raylib.java.core.input.Keyboard;
 import com.raylib.java.core.rCore;
 import com.raylib.java.raymath.Vector2;
-import com.raylib.java.shapes.Rectangle;
-import com.studiohartman.jamepad.ControllerUnpluggedException;
 import org.goose.Main;
 import org.goose.core.Input;
 import org.goose.core.Renderer;
-import org.goose.core.gui.CheckBox;
+import org.goose.core.gui.elements.CheckBox;
+import org.goose.level.Level;
 import org.goose.objects.DirtBlock;
 import org.goose.objects.Entity;
 import org.goose.objects.GrassBlock;
@@ -24,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class World extends Level{
+public class World extends Level {
     public HashMap<Vector2, Tile> tileMap = new HashMap<>();
     public boolean devMode = false;
 

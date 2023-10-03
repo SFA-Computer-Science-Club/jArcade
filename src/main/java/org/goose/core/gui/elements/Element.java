@@ -1,4 +1,4 @@
-package org.goose.core.gui;
+package org.goose.core.gui.elements;
 
 import com.raylib.java.raymath.Vector2;
 

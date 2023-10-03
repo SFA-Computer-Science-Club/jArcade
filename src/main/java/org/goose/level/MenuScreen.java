@@ -5,14 +5,11 @@ import com.raylib.java.core.Color;
 import com.raylib.java.core.input.Keyboard;
 import com.raylib.java.core.rCore;
 import com.raylib.java.raymath.Vector2;
-import com.raylib.java.shapes.Rectangle;
+import org.goose.Main;
 import org.goose.core.Input;
-import org.goose.core.Physics;
 import org.goose.core.Renderer;
-import org.goose.core.gui.CheckBox;
-import org.goose.core.gui.TextBox;
-import org.goose.core.gui.TextButton;
-import org.goose.core.gui.TextLabel;
+import org.goose.core.gui.elements.TextButton;
+import org.goose.level.PongGame.Pong;
 import org.goose.objects.Player;
 import com.raylib.java.text.rText;
 
@@ -21,10 +18,10 @@ import java.io.IOException;
 import static org.goose.Main.world;
 
 public class MenuScreen extends Level{
-    TextLabel label = new TextLabel("You can make a really long piece of text that goes on forever", 250,100, 20, new Vector2(600,600), Color.WHITE, Color.BLACK);
-    TextBox textBox = new TextBox("Type me", 250, 100, 30, new Vector2(600,800), Color.BLUE, Color.WHITE);
-    TextButton textButton = new TextButton("Click me", 250,100,30, new Vector2(600,910 ), Color.BLUE, Color.WHITE);
-    CheckBox checkBox = new CheckBox("Checkbox", 250,100,25, new Vector2(1000,600), Color.BLUE, Color.WHITE);
+
+    private TextButton pongButton = new TextButton("Play Pong", 300, 100, 30, new Vector2(500,500), Color.WHITE, Color.BLACK);
+    private TextButton platformerButton = new TextButton("Play Platformer", 300, 100, 30, new Vector2(500,600), Color.WHITE, Color.BLACK);
+    private TextButton closeButton = new TextButton("Close", 100,100, 30, new Vector2(0,0), Color.WHITE, Color.RED);
 
     public void startGame() throws IOException {
         world.loadWorldFromCSV("levels/TestMap.csv");
@@ -44,41 +41,31 @@ public class MenuScreen extends Level{
         int centerX = (Renderer.getWindowWidth()/2);
         int centerY = (Renderer.getWindowHeight()/2);
 
-        Vector2 textSize = rText.MeasureTextEx(rText.GetFontDefault(), "SFA Platformer Menu", 50, 1);
-
-        Renderer.renderer.text.DrawText("SFA Platformer Menu", centerX-((int)textSize.x/2),centerY-300, 50, Color.DARKPURPLE);
-
-        Rectangle rect = new Rectangle(new Vector2((Renderer.getWindowWidth()/2f)-125, (Renderer.getWindowHeight()/2f) -50), 250,100);
-
-        if (Physics.pointCollidingRect(rect, Input.getMousePosition())) {
-            Renderer.renderer.shapes.DrawRectangle((int)rect.x,(int)rect.y, (int)rect.width, (int)rect.height, Color.DARKPURPLE);
-            Renderer.renderer.text.DrawText("Left Click to Start", (int) rect.x+10, (int) rect.y+30, 25, Color.WHITE);
-
-            if (Input.isLeftMouseClicked()) {
-                startGame();
-            }
-        } else {
-            Renderer.renderer.shapes.DrawRectangle((int)rect.x,(int)rect.y, (int)rect.width, (int)rect.height, Color.DARKPURPLE);
-            Renderer.renderer.text.DrawText("Start: World", (int) rect.x+50, (int) rect.y+30, 25, Color.WHITE);
-        }
-
-        label.render(delta);
-        textBox.render(delta);
-        textButton.render(delta);
-        checkBox.render(delta);
+        pongButton.render(delta);
+        platformerButton.render(delta);
+        closeButton.render(delta);
     }
 
     @Override
     public void tick(double delta) {
-        if (Input.pressedKeys.contains(Keyboard.KEY_F2)) {
-            label.setTransparency((int)(Math.random()*100));
-        }
         if (Input.pressedKeys.contains(Keyboard.KEY_F11)) {
             if (rCore.IsWindowFullscreen()) {
                 Renderer.renderer.core.SetWindowState(Config.ConfigFlag.FLAG_WINDOW_MAXIMIZED);
             } else {
                 Renderer.renderer.core.ToggleFullscreen();
             }
+        }
+        if (closeButton.isClicked()) {
+            closeButton.setClicked(false);
+            Renderer.renderer.core.CloseWindow();
+        }
+
+        if (pongButton.isClicked()) {
+            pongButton.setClicked(false);
+            Pong pong = new Pong();
+            Main.worldList.add(pong);
+            this.setEnabled(false);
+            pong.setEnabled(true);
         }
     }
 }

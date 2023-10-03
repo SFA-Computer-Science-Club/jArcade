@@ -1,11 +1,10 @@
-package org.goose.core.gui;
+package org.goose.core.gui.elements;
 
 import com.raylib.java.core.Color;
 import com.raylib.java.raymath.Vector2;
 import com.raylib.java.shapes.rShapes;
 import org.goose.core.Input;
 import org.goose.core.Physics;
-import org.goose.core.Time;
 
 public class TextButton extends TextLabel{
     private boolean clicked = false;

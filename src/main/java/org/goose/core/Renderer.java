@@ -6,16 +6,10 @@ import com.raylib.java.core.rCore;
 import com.raylib.java.core.Color;
 import com.raylib.java.core.input.Keyboard;
 import com.raylib.java.core.rcamera.Camera2D;
-import com.raylib.java.raymath.Vector2;
-import com.raylib.java.shapes.Rectangle;
 import com.raylib.java.textures.Image;
-import org.goose.Main;
 import org.goose.level.Level;
-import org.goose.level.World;
 import org.goose.objects.DirtBlock;
-import org.goose.objects.Entity;
 import org.goose.objects.GrassBlock;
-import org.goose.objects.Tile;
 
 import java.io.IOException;
 
@@ -40,7 +34,7 @@ public class Renderer {
         windowHeight = rCore.GetScreenHeight();
         renderer.core.SetWindowSize(windowWidth,windowHeight);
         renderer.core.SetTargetFPS(targetFPS);
-        renderer.core.SetExitKey(Keyboard.KEY_ESCAPE);
+        renderer.core.SetExitKey(Keyboard.KEY_DELETE);
 
         DirtBlock.initTexture();
         GrassBlock.initTexture();

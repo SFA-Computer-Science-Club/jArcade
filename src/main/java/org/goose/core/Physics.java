@@ -23,9 +23,9 @@ public class Physics {
             Renderer.drawFPS = !Renderer.drawFPS;
         }
 
-        for (Level level : Main.worldList) {
-            if (level.isEnabled()) {
-                level.tick(deltaTime);
+        for (int i = 0; i < Main.worldList.size(); i++) {
+            if (Main.worldList.get(i).isEnabled()) {
+                Main.worldList.get(i).tick(deltaTime);
             }
         }
     }

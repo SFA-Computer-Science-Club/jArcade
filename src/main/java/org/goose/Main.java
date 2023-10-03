@@ -1,24 +1,17 @@
 package org.goose;
 
-
-import com.raylib.java.textures.Image;
 import org.goose.core.*;
-import org.goose.level.Level;
-import org.goose.level.MenuScreen;
-import org.goose.level.World;
-import org.goose.objects.DirtBlock;
-import org.goose.objects.GrassBlock;
+import org.goose.level.*;
+import org.goose.level.PlatformerGame.World;
+import org.goose.level.PongGame.Pong;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
 
 public class Main {
 
     public static World world = new World();
     public static MenuScreen menuScreen = new MenuScreen();
-
-
 
     public static ArrayList<Level> worldList = new ArrayList<>();
 

@@ -11,6 +11,7 @@ public abstract class Tile {
     private int sizeX;
     private int sizeY;
     private Rectangle rect;
+    private boolean canCollide;
 
     private boolean gravity;
 
@@ -60,6 +61,14 @@ public abstract class Tile {
 
     public void setGravity(boolean gravity) {
         this.gravity = gravity;
+    }
+
+    public boolean isCanCollide() {
+        return canCollide;
+    }
+
+    public void setCanCollide(boolean canCollide) {
+        this.canCollide = canCollide;
     }
 
     public abstract void render();

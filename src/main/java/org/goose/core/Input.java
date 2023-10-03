@@ -67,6 +67,10 @@ public class Input {
         Input.controllerManager.update();
     }
 
+    public static boolean keyPressed(int key) {
+        return renderPressedKeys.contains(key);
+    }
+
     /**
      * Returns is a certain key is held down, false if not held down
      * @param key

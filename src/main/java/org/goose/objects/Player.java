@@ -24,11 +24,9 @@ public class Player extends Entity{
         super.setRect(new Rectangle(x,y,20,50));
     }
 
-
     @Override
     public void render() {
         Renderer.renderer.shapes.DrawRectangle((int)getRect().x, (int)getRect().y, (int)getRect().width, (int)getRect().height, Color.WHITE);
-        //Renderer.renderer.text.DrawText("Movement: "+ Renderer.renderer.core.GetGamepadAxisCount(0), 0,400,40, Color.RED);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package org.goose.core.gui;
+package org.goose.core.gui.elements;
 
 import com.raylib.java.core.Color;
 import com.raylib.java.core.input.Keyboard;
@@ -6,7 +6,6 @@ import com.raylib.java.raymath.Vector2;
 import com.raylib.java.shapes.rShapes;
 import org.goose.core.Input;
 import org.goose.core.Physics;
-import org.goose.core.Renderer;
 import org.goose.core.Time;
 
 import java.util.ArrayList;
