@@ -5,6 +5,7 @@ import com.raylib.java.core.Color;
 import com.raylib.java.core.input.Keyboard;
 import com.raylib.java.core.rCore;
 import com.raylib.java.raymath.Vector2;
+import com.studiohartman.jamepad.ControllerButton;
 import org.goose.Main;
 import org.goose.core.Input;
 import org.goose.core.Renderer;
@@ -66,6 +67,17 @@ public class MenuScreen extends Level implements EventListener {
         if (closeButton.isClicked()) {
             closeButton.setClicked(false);
             Renderer.renderer.core.CloseWindow();
+        }
+        try {
+            if (Input.controllerManager.getControllerIndex(0).isButtonJustPressed(ControllerButton.BACK) ) {
+                pongButton.setClicked(false);
+                Pong pong = new Pong();
+                Main.worldList.add(pong);
+                this.setEnabled(false);
+                pong.setEnabled(true);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         if (pongButton.isClicked()) {

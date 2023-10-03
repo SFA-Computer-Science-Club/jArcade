@@ -7,6 +7,8 @@ import com.raylib.java.core.rCore;
 import com.raylib.java.raymath.Vector2;
 import com.raylib.java.shapes.Rectangle;
 import com.raylib.java.shapes.rShapes;
+import com.studiohartman.jamepad.ControllerAxis;
+import com.studiohartman.jamepad.ControllerButton;
 import org.goose.Main;
 import org.goose.core.Input;
 import org.goose.core.Physics;
@@ -52,6 +54,14 @@ public class Pong extends Level {
         rShapes.DrawRectangleRec(paddle2, Color.WHITE);
         rShapes.DrawRectangleRec(goal, Color.WHITE);
         Renderer.renderer.text.DrawText("Player1: " + (int)score.x + " | " + "Player2: " + (int)score.y, Renderer.getWindowWidth()/2 - 150, 30 * Renderer.getWindowHeight()/1920, 30, Color.WHITE);
+        try {
+            if (Input.controllerManager.getControllerIndex(0).isButtonJustPressed(ControllerButton.BACK)) {
+                this.setEnabled(false);
+                Main.menuScreen.setEnabled(true);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -79,6 +89,24 @@ public class Pong extends Level {
         if (Input.heldKeys.contains(Keyboard.KEY_S)) {
             paddle1speed = speed;
         }
+        try {
+            if (Input.controllerManager.getControllerIndex(0).getAxisState(ControllerAxis.LEFTY) > 0) {
+                paddle2speed = -speed;
+            } else if (Input.controllerManager.getControllerIndex(0).getAxisState(ControllerAxis.LEFTY) < 0) {
+                paddle2speed = speed;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            if (Input.controllerManager.getControllerIndex(1).getAxisState(ControllerAxis.LEFTY) > 0) {
+                paddle1speed = -speed;
+            } else if (Input.controllerManager.getControllerIndex(1).getAxisState(ControllerAxis.LEFTY) < 0) {
+                paddle1speed = speed;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (!Input.heldKeys.contains(Keyboard.KEY_W) && !Input.heldKeys.contains(Keyboard.KEY_S)) {
             if (paddle1speed > 0.25) {
                 paddle1speed -= .015;
@@ -103,8 +131,6 @@ public class Pong extends Level {
                 paddle2speed = 0;
             }
         }
-
-
 
         paddle1.y += paddle1speed;
 
