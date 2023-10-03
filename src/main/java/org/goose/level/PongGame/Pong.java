@@ -90,19 +90,23 @@ public class Pong extends Level {
             paddle1speed = speed;
         }
         try {
-            if (Input.controllerManager.getControllerIndex(0).getAxisState(ControllerAxis.LEFTY) > 0) {
+            if (Input.controllerManager.getControllerIndex(0).getAxisState(ControllerAxis.LEFTY) > 0.25) {
                 paddle2speed = -speed;
-            } else if (Input.controllerManager.getControllerIndex(0).getAxisState(ControllerAxis.LEFTY) < 0) {
+            } else if (Input.controllerManager.getControllerIndex(0).getAxisState(ControllerAxis.LEFTY) < -0.25) {
                 paddle2speed = speed;
+            } else {
+                paddle2speed = 0;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         try {
-            if (Input.controllerManager.getControllerIndex(1).getAxisState(ControllerAxis.LEFTY) > 0) {
+            if (Input.controllerManager.getControllerIndex(1).getAxisState(ControllerAxis.LEFTY) > 0.25) {
                 paddle1speed = -speed;
-            } else if (Input.controllerManager.getControllerIndex(1).getAxisState(ControllerAxis.LEFTY) < 0) {
+            } else if (Input.controllerManager.getControllerIndex(1).getAxisState(ControllerAxis.LEFTY) < -0.25) {
                 paddle1speed = speed;
+            } else {
+                paddle1speed = 0;
             }
         } catch (Exception e) {
             e.printStackTrace();
