@@ -8,16 +8,19 @@ import com.raylib.java.raymath.Vector2;
 import org.goose.Main;
 import org.goose.core.Input;
 import org.goose.core.Renderer;
+import org.goose.core.event.core.EventHandler;
+import org.goose.core.event.core.EventListener;
+import org.goose.core.event.core.EventManager;
+import org.goose.core.event.events.TextButtonClickEvent;
 import org.goose.core.gui.elements.TextButton;
 import org.goose.level.PongGame.Pong;
 import org.goose.objects.Player;
-import com.raylib.java.text.rText;
 
 import java.io.IOException;
 
 import static org.goose.Main.world;
 
-public class MenuScreen extends Level{
+public class MenuScreen extends Level implements EventListener {
 
     private TextButton pongButton = new TextButton("Play Pong", 300, 100, 30, new Vector2(500,500), Color.WHITE, Color.BLACK);
     private TextButton platformerButton = new TextButton("Play Platformer", 300, 100, 30, new Vector2(500,600), Color.WHITE, Color.BLACK);
@@ -46,6 +49,11 @@ public class MenuScreen extends Level{
         closeButton.render(delta);
     }
 
+    @EventHandler
+    public void closeButtonPressed(TextButtonClickEvent event) {
+        //Test example of how to use an event system
+    }
+
     @Override
     public void tick(double delta) {
         if (Input.pressedKeys.contains(Keyboard.KEY_F11)) {
@@ -61,6 +69,8 @@ public class MenuScreen extends Level{
         }
 
         if (pongButton.isClicked()) {
+            TextButtonClickEvent event = new TextButtonClickEvent(pongButton, this);
+            event.dispatch();
             pongButton.setClicked(false);
             Pong pong = new Pong();
             Main.worldList.add(pong);

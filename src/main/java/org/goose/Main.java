@@ -1,6 +1,7 @@
 package org.goose;
 
 import org.goose.core.*;
+import org.goose.core.event.core.EventManager;
 import org.goose.level.*;
 import org.goose.level.PlatformerGame.World;
 import org.goose.level.PongGame.Pong;
@@ -22,6 +23,7 @@ public class Main {
         //Go through and initialize our textures
         worldList.add(world);
         worldList.add(menuScreen);
+        EventManager.addListener(menuScreen);
 
         //init menu
         menuScreen.setEnabled(true);

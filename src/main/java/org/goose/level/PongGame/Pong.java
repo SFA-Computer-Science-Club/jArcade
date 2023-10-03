@@ -169,10 +169,10 @@ public class Pong extends Level {
         }
 
         if (Physics.rectCollided(paddle2, goal)) {
-            if (goal.y > paddle2.y) {
-                goal.x += 10;
+            if (goal.y < paddle2.y) {
+                goal.x -= 10;
             } else if (goal.y < paddle2.y + paddle2.height) {
-                goal.x += 10;
+                goal.x -= 10;
             }
             goalSpeed.x = 2* -goalSpeed.x;
             if (random.nextInt(1,3) == 2) {
