@@ -1,11 +1,11 @@
 package org.goose.core.sound;
 
-public class Sound {
+public class Audio {
     private boolean looped;
     private double currentTime;
     private double length;
 
-    public Sound(String path) {
+    public Audio(String path) {
 
     }
 }

@@ -7,6 +7,7 @@ import com.raylib.java.core.Color;
 import com.raylib.java.core.input.Keyboard;
 import com.raylib.java.core.rcamera.Camera2D;
 import com.raylib.java.textures.Image;
+import org.goose.core.event.events.RenderBeginEvent;
 import org.goose.level.Level;
 import org.goose.objects.DirtBlock;
 import org.goose.objects.GrassBlock;
@@ -35,6 +36,7 @@ public class Renderer {
         renderer.core.SetWindowSize(windowWidth,windowHeight);
         renderer.core.SetTargetFPS(targetFPS);
         renderer.core.SetExitKey(Keyboard.KEY_DELETE);
+        renderer.audio.InitAudioDevice();
 
         DirtBlock.initTexture();
         GrassBlock.initTexture();
@@ -42,6 +44,13 @@ public class Renderer {
         Image image = TextureLoader.loadImage("textures/dirt_block.png");
         Renderer.renderer.core.SetWindowIcon(image);
         Time.setLastTime(Time.now());
+    }
+
+    public static void startFrame() {
+        RenderBeginEvent event = new RenderBeginEvent(); //called before each from begin
+        event.dispatch();
+
+
     }
 
     /**
