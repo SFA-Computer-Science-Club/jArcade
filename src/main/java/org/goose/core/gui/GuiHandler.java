@@ -1,5 +1,6 @@
-package org.goose.core.gui.elements;
+package org.goose.core.gui;
 
+import org.goose.core.gui.elements.Element;
 import org.goose.level.Level;
 
 import java.util.ArrayList;

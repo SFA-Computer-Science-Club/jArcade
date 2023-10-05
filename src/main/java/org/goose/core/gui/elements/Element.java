@@ -1,6 +1,7 @@
 package org.goose.core.gui.elements;
 
 import com.raylib.java.raymath.Vector2;
+import org.goose.core.gui.GuiHandler;
 import org.goose.level.Level;
 
 /**
