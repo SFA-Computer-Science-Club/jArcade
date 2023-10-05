@@ -32,6 +32,7 @@ public class Main {
 
         //init menu
         menuScreen.setEnabled(true);
+        sound.play();
 
         double accumulator = 0.0;
         double lastUpdateTime = Time.now();
