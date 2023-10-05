@@ -15,6 +15,9 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 
+import static org.lwjgl.openal.AL10.*;
+import static org.lwjgl.openal.EXTFloat32.AL_FORMAT_MONO_FLOAT32;
+import static org.lwjgl.openal.EXTFloat32.AL_FORMAT_STEREO_FLOAT32;
 import static org.lwjgl.stb.STBVorbis.*;
 
 public class SoundLoader {
@@ -40,9 +43,9 @@ public class SoundLoader {
         return Renderer.renderer.audio.LoadWaveEx(byteBufferData, 0,44100,16,1);
     }
 
-    public static Sound LoadSound(String path) {
+    public static Audio LoadSound(String path) {
         byte[] data = fileReader(path);
-        return Renderer.renderer.audio.LoadSoundFromWave(loadWave(data));
+        return LoadSoundFromWave(loadWave(data));
     }
 
     public static Music LoadMusic(String path) {
@@ -50,6 +53,59 @@ public class SoundLoader {
     }
 
     //NO MANS LAND//
+    public static Audio LoadSoundFromWave(SoundWave wave) {
+        Audio audio = new Audio();
+
+        if (wave.data == null) {
+            System.out.println("Error in loading sound, wave data is null!");
+            return null;
+        }
+        int format = 0;
+        if (wave.channels == 1) {
+            switch (wave.sampleSize) {
+                case 8 -> format = AL_FORMAT_MONO8;
+                case 16 -> format = AL_FORMAT_MONO16;
+                case 32 -> format = AL_FORMAT_MONO_FLOAT32;
+                // Requires OpenAL extension: AL_EXT_FLOAT32
+                default -> System.out.println("Wave size not supported: " + wave.sampleSize);
+            }
+        } else if (wave.channels == 2) {
+            switch (wave.sampleSize) {
+                case 8 -> format = AL_FORMAT_STEREO8;
+                case 16 -> format = AL_FORMAT_STEREO16;
+                case 32 -> format = AL_FORMAT_STEREO_FLOAT32;
+                // Requires OpenAL extension: AL_EXT_FLOAT32
+                default -> System.out.println("Wave size not supported: " + wave.sampleSize);
+            }
+        }
+
+        int source = alGenSources();
+        alSourcef(source, AL_PITCH, 1.0f);
+        alSourcef(source, AL_GAIN, 1.0f);
+        alSource3f(source, AL_POSITION, 0,0,0);
+        alSource3f(source, AL_VELOCITY, 0,0,0);
+        alSourcei(source, AL_LOOPING, AL_FALSE);
+
+        int buffer = alGenBuffers();
+        int dataSize = wave.sampleCount * wave.channels * (wave.sampleSize / 8);
+
+        if (wave.data instanceof ByteBuffer) {
+            alBufferData(buffer, format, ((ByteBuffer) wave.data), wave.sampleRate);
+        } else if (wave.data instanceof ShortBuffer) {
+            alBufferData(buffer, format, ((ShortBuffer) wave.data), wave.sampleRate);
+        }
+
+        alSourcei(source, AL_BUFFER, buffer);
+
+        audio.setLength((double)wave.sampleCount/wave.sampleRate);
+        audio.setSource(source);
+        audio.setBuffer(buffer);
+        audio.setFormat(format);
+
+        return audio;
+    }
+
+
     public static SoundWave loadWave(byte[] fileData) {
         SoundWave wave = new SoundWave();
 
@@ -73,10 +129,6 @@ public class SoundLoader {
                 wave.channels = ChannelsBuffer.get(0);
                 wave.sampleCount = stb_vorbis_stream_length_in_samples(oggData);
                 wave.data = oggAudio;
-
-                System.out.println(wave.sampleCount);
-                System.out.println(wave.sampleRate);
-                System.out.println(wave.channels);
 
                 stb_vorbis_close(oggData);
             }

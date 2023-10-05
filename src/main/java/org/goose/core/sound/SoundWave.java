@@ -7,7 +7,7 @@ import java.nio.Buffer;
 /**
  * Equivalent of the Wave class from Raylib-J, just did some small fixes to get it to work with our code
  */
-public class SoundWave extends Wave {
+public class SoundWave {
     class WAVRiffHeader {
         char[] chunkID;
         int chunkSize;

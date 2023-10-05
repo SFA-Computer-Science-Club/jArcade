@@ -5,6 +5,7 @@ import com.raylib.java.raudioal.Sound;
 import com.raylib.java.utils.FileIO;
 import org.goose.core.*;
 import org.goose.core.event.core.EventManager;
+import org.goose.core.sound.Audio;
 import org.goose.core.sound.SoundLoader;
 import org.goose.level.*;
 import org.goose.level.PlatformerGame.World;
@@ -27,8 +28,7 @@ public class Main {
         worldList.add(world);
         worldList.add(menuScreen);
         EventManager.addListener(menuScreen);
-        Sound sound = SoundLoader.LoadSound("sound/trololo.ogg");
-        System.out.println(Renderer.renderer.audio.IsAudioDeviceReady());
+        Audio sound = SoundLoader.LoadSound("sound/trololo.ogg");
 
         //init menu
         menuScreen.setEnabled(true);
@@ -39,8 +39,7 @@ public class Main {
         while (!Renderer.shouldClose()) {
             double deltaTime = (Time.now()-lastUpdateTime);
             lastUpdateTime += deltaTime;
-
-            Renderer.renderer.audio.PlaySound(sound);
+            sound.play();
             double targetTPS = (1000d/Renderer.targetTPS);
             accumulator += deltaTime;
 
