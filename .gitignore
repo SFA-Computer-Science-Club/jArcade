@@ -2,6 +2,10 @@
 .gradle/*
 .idea/*
 gradle/*
+*.class
+*.bin
+*.lock
+*.probe
 *.jar
 build/*
 build/libs/PlatformerTest-1.0-SNAPSHOT.jar

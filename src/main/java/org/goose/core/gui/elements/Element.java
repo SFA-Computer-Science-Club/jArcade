@@ -1,13 +1,15 @@
 package org.goose.core.gui.elements;
 
 import com.raylib.java.raymath.Vector2;
+import org.goose.level.Level;
 
 /**
  * Base class for GUI elements
  */
 public abstract class Element {
     private Vector2 position = new Vector2();
-    private boolean visible = false;
+    private boolean visible = true;
+    private Level level;
     public abstract void render(double deltaTime);
     public enum TextCenter {
         TOP_LEFT,
@@ -35,5 +37,14 @@ public abstract class Element {
 
     public void setPosition(Vector2 position) {
         this.position = position;
+    }
+
+    public Level getLevel() {
+        return level;
+    }
+
+    public void setLevel(Level level) {
+        GuiHandler.removeElement(this, getLevel());
+        GuiHandler.addElement(this, level);
     }
 }

@@ -68,16 +68,18 @@ public class MenuScreen extends Level implements EventListener {
             closeButton.setClicked(false);
             Renderer.renderer.core.CloseWindow();
         }
-        try {
-            if (Input.controllerManager.getControllerIndex(0).isButtonJustPressed(ControllerButton.BACK) ) {
-                pongButton.setClicked(false);
-                Pong pong = new Pong();
-                Main.worldList.add(pong);
-                this.setEnabled(false);
-                pong.setEnabled(true);
+        if (Input.anyControllersConnected()) {
+            try {
+                if (Input.getController(0).isButtonJustPressed(ControllerButton.BACK) ) {
+                    pongButton.setClicked(false);
+                    Pong pong = new Pong();
+                    Main.worldList.add(pong);
+                    this.setEnabled(false);
+                    pong.setEnabled(true);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
         if (pongButton.isClicked()) {

@@ -3,6 +3,7 @@ package org.goose.core;
 import com.raylib.java.core.input.Keyboard;
 import com.raylib.java.raymath.Vector2;
 import com.raylib.java.core.rCore;
+import com.studiohartman.jamepad.ControllerIndex;
 import com.studiohartman.jamepad.ControllerManager;
 
 import java.util.ArrayList;
@@ -86,5 +87,13 @@ public class Input {
      */
     public static boolean isLeftMouseClicked() {
         return rCore.IsMouseButtonDown(0);
+    }
+
+    public static boolean anyControllersConnected() {
+        return Input.controllerManager.getNumControllers() != 0;
+    }
+
+    public static ControllerIndex getController(int index) {
+        return controllerManager.getControllerIndex(index);
     }
 }
