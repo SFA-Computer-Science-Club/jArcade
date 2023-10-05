@@ -1,11 +1,12 @@
 package org.goose.core.sound;
 
-import static org.lwjgl.openal.AL10.alSourcePlay;
+import static org.lwjgl.openal.AL10.*;
 
 public class Audio {
     private boolean looped;
     private double currentTime;
     private double length;
+    private boolean playing;
 
     //stuff used for the audio
     private int source;
@@ -13,12 +14,23 @@ public class Audio {
     private int format;
 
     public Audio(String path) {
-
+        Audio sound = SoundLoader.LoadSound(path);
+        this.source = sound.source;
+        this.buffer = sound.buffer;
+        this.format = sound.format;
     }
 
     public Audio(){}
 
     public void play() {
+        if (playing) {
+            int num = alGetSourcei(source, AL_SOURCE_STATE);
+            if (num == AL_STOPPED) {
+                playing = false;
+            }
+            return;
+        }
+        playing = true;
         alSourcePlay(this.source);
     }
 
@@ -30,6 +42,10 @@ public class Audio {
         return length;
     }
 
+    public boolean isPlaying() {
+        return playing;
+    }
+
     public void setLength(double length) {
         this.length = length;
     }
@@ -38,7 +54,11 @@ public class Audio {
     }
 
     public void setLooped(boolean looped) {
-        this.looped = looped;
+        if (looped) {
+            alSourcei(source, AL_LOOPING, 1);
+        } else {
+            alSourcei(source, AL_LOOPING, 0);
+        }
     }
 
     public int getSource() {

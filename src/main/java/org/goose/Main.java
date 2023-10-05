@@ -28,7 +28,7 @@ public class Main {
         worldList.add(world);
         worldList.add(menuScreen);
         EventManager.addListener(menuScreen);
-        Audio sound = SoundLoader.LoadSound("sound/trololo.ogg");
+        Audio sound = new Audio("sound/trololo.ogg");
 
         //init menu
         menuScreen.setEnabled(true);
@@ -39,12 +39,10 @@ public class Main {
         while (!Renderer.shouldClose()) {
             double deltaTime = (Time.now()-lastUpdateTime);
             lastUpdateTime += deltaTime;
-            sound.play();
             double targetTPS = (1000d/Renderer.targetTPS);
             accumulator += deltaTime;
-
             Input.registerInput(); //Gather input for processing in tick
-
+            sound.play();
             while (accumulator > targetTPS) {
                 Physics.tick(targetTPS); //Calculate physics, movement, AI etc
                 accumulator -= targetTPS;
