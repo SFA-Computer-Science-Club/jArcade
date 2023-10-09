@@ -5,6 +5,10 @@ import com.raylib.java.raymath.Vector2;
 import com.raylib.java.shapes.rShapes;
 import org.goose.core.Input;
 import org.goose.core.Physics;
+import org.goose.core.event.core.EventHandler;
+import org.goose.core.event.events.core.RenderDrawEvent;
+import org.goose.core.event.events.gui.TextButtonClickEvent;
+import org.goose.core.event.events.keyboard.MouseLeftClickEvent;
 
 public class TextButton extends TextLabel{
     private boolean clicked = false;
@@ -28,9 +32,11 @@ public class TextButton extends TextLabel{
        this.clicked = false;
     }
 
-    @Override
-    public void render(double delta) {
-
+    @EventHandler
+    public void render(RenderDrawEvent event) {
+        if (!this.getLevel().isEnabled()) {
+            return;
+        }
         boolean hovered = Physics.pointCollidingRect(super.rect, Input.getMousePosition());
         if (hovered) {
             if (Input.isLeftMouseClicked()) {
@@ -50,5 +56,13 @@ public class TextButton extends TextLabel{
         }
 
         TextLabel.DrawTextBoxRestricted(super.rect, super.getFontSize(), super.getText(), this);
+    }
+
+    @EventHandler
+    public void handleClick(MouseLeftClickEvent event) {
+        if (Physics.pointCollidingRect(this.rect, event.getPosition()) && this.isVisible()) {
+            TextButtonClickEvent textButtonClickEvent = new TextButtonClickEvent(this);
+            textButtonClickEvent.dispatch();
+        }
     }
 }

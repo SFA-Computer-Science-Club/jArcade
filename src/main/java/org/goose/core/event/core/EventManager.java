@@ -1,7 +1,9 @@
 package org.goose.core.event.core;
 
 import org.goose.core.event.events.Event;
+import org.goose.level.Level;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -44,11 +46,26 @@ public class EventManager {
 
     public static void printAllListeners() {
         for (Class<Event> event : registeredListeners.keySet()) {
-            System.out.println("Event: " + event.getName() + ", Listeners: " +  registeredListeners.get(event).toString());
+            System.out.println("Event: " + event.getSimpleName() + ", Listeners: " +  registeredListeners.get(event).toString());
         }
     }
 
-    @SuppressWarnings("unchecked")
+    public static void deleteListener(EventListener listener) {
+        for (final Method method : listener.getClass().getDeclaredMethods()) {
+            if (method.isAnnotationPresent(EventHandler.class)) {
+                Class<?>[] parameters = method.getParameterTypes();
+                for (Class<?> type : parameters) {
+                    if (type.getGenericSuperclass().equals(Event.class)) {
+                        //the parameter includes a class which extends Event
+                        if (registeredListeners.containsKey(type)) {
+                            registeredListeners.get(type).remove(listener);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public static void dispatchEvent(final Event event, final ListenerPriority priority) {
         //check if event queue for that event is empty
         if (!registeredListeners.containsKey(event.getClass())) {
@@ -56,11 +73,20 @@ public class EventManager {
         }
         for (EventListener listener : registeredListeners.get(event.getClass())) {
             //iterates over the current listeners for that event
+            if (listener instanceof Level) {
+                if (!((Level) listener).isEnabled()) {
+                    continue;
+                }
+            }
             for (final Method method : listener.getClass().getDeclaredMethods()) {
                 if (method.isAnnotationPresent(EventHandler.class)) {
+                    EventHandler annotation = method.getAnnotation(EventHandler.class);
+                    if (annotation.priority().ordinal() != priority.ordinal()) {
+                        continue;
+                    }
                     Class<?>[] parameters = method.getParameterTypes();
                     for (Class<?> type : parameters) {
-                        if (type.getGenericSuperclass().equals(Event.class)) {
+                        if (type.getGenericSuperclass().equals(Event.class) && type.isInstance(event)) {
                             try {
                                 method.invoke(listener, event);
                             } catch (Exception e){

@@ -1,17 +1,17 @@
 package org.goose.core.gui.elements;
 
 import com.raylib.java.raymath.Vector2;
+import org.goose.core.event.core.EventListener;
 import org.goose.core.gui.GuiHandler;
 import org.goose.level.Level;
 
 /**
  * Base class for GUI elements
  */
-public abstract class Element {
+public abstract class Element implements EventListener {
     private Vector2 position = new Vector2();
     private boolean visible = true;
     private Level level;
-    public abstract void render(double deltaTime);
     public enum TextCenter {
         TOP_LEFT,
         TOP_CENTER,
@@ -45,7 +45,6 @@ public abstract class Element {
     }
 
     public void setLevel(Level level) {
-        GuiHandler.removeElement(this, getLevel());
-        GuiHandler.addElement(this, level);
+        this.level = level;
     }
 }

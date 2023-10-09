@@ -1,5 +1,5 @@
 package org.goose.core.event.core;
 
 public enum ListenerPriority {
-    HIGHEST, HIGH, NORMAL, LOW, LOWEST;
+    CRITICAL, HIGHEST, HIGH, NORMAL, LOW, LOWEST, LAST
 }

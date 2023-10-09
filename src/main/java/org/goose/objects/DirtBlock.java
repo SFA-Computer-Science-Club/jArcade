@@ -2,14 +2,9 @@ package org.goose.objects;
 
 import com.raylib.java.core.Color;
 import com.raylib.java.shapes.Rectangle;
-import com.raylib.java.textures.rTextures;
 import com.raylib.java.textures.Texture2D;
-import org.goose.Main;
 import org.goose.core.Renderer;
 import org.goose.core.TextureLoader;
-
-import java.io.File;
-import java.net.URISyntaxException;
 
 public class DirtBlock extends Tile {
 

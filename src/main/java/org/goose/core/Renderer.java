@@ -7,12 +7,10 @@ import com.raylib.java.core.Color;
 import com.raylib.java.core.input.Keyboard;
 import com.raylib.java.core.rcamera.Camera2D;
 import com.raylib.java.textures.Image;
-import org.goose.core.event.events.RenderBeginEvent;
-import org.goose.level.Level;
+import org.goose.core.event.events.core.*;
+import org.goose.core.input.InputListener;
 import org.goose.objects.DirtBlock;
 import org.goose.objects.GrassBlock;
-
-import java.io.IOException;
 
 public class Renderer {
 
@@ -25,10 +23,15 @@ public class Renderer {
     private static int windowWidth = 0; //gets set at load time
     private static int windowHeight = 0;
 
+    private static double accumulator = 0.0;
+    private static double lastUpdateTime;
+
     /**
      * Initialize window creation and texture loading, must be called prior to the game loop
      */
     public static void init() {
+        InitializationEvent event = new InitializationEvent();//Automatically called
+        InputListener inputListener = new InputListener();
         rCore.SetConfigFlags(Config.ConfigFlag.FLAG_WINDOW_MAXIMIZED);
         renderer.core.InitWindow(windowWidth,windowHeight, "Platformer");
         windowWidth = rCore.GetScreenWidth();
@@ -44,13 +47,53 @@ public class Renderer {
         Image image = TextureLoader.loadImage("textures/dirt_block.png");
         Renderer.renderer.core.SetWindowIcon(image);
         Time.setLastTime(Time.now());
+        lastUpdateTime = Time.now();
+    }
+    public static void close() {
+        CloseEvent event = new CloseEvent();
+        event.dispatch();
+        Renderer.renderer.core.CloseWindow();
+        renderEnd();
     }
 
+    /**
+     * Dispatches the render begin event, fires after the screen is set up to draw
+     */
     public static void startFrame() {
+        renderBegin();
         RenderBeginEvent event = new RenderBeginEvent(); //called before each from begin
         event.dispatch();
 
+        Input.registerInput(); //Gather input for processing in tick
 
+        double deltaTime = (Time.now()-lastUpdateTime);
+        lastUpdateTime += deltaTime;
+        accumulator += deltaTime;
+    }
+
+    /**
+     * Dispatches the RenderEndEvent, useful to cleanup any needed code upon rendering end
+     */
+    public static void endFrame() {
+        RenderEndEvent event = new RenderEndEvent();
+        event.dispatch();
+        renderEnd();
+    }
+
+    /**
+     * Dispatches the RenderDrawEvent, which should cause everything to be rendered
+     */
+    public static void drawFrame() {
+        RenderDrawEvent event = new RenderDrawEvent();
+        event.dispatch();
+    }
+
+    public static void tick() {
+        TickEvent tickEvent = new TickEvent();
+        tickEvent.dispatch();
+        //Physics.tick(targetTPS); //Calculate physics, movement, AI etc
+        accumulator -= (1000d/targetTPS);
+        Input.pressedKeys.clear();
     }
 
     /**
@@ -62,18 +105,11 @@ public class Renderer {
     }
 
     /**
-     * Draws FPS at 0,0
-     */
-    public static void renderFPS() {
-        renderer.text.DrawFPS(0,0);
-    }
-
-    /**
      * Sets up the OpenGL context to begin rendering, must be called before any draw calls
      */
     public static void renderBegin() {
         renderer.core.BeginDrawing();
-        renderer.core.ClearBackground(Color.WHITE);
+        renderer.core.ClearBackground(Color.BLACK);
         renderer.core.BeginMode2D(camera);
     }
 
@@ -83,24 +119,6 @@ public class Renderer {
     public static void renderEnd() {
         renderer.core.EndMode2D();
         renderer.core.EndDrawing();
-    }
-
-    /**
-     * Call level's render function
-     */
-    public static void renderWorld(Level level) throws IOException {
-        level.render(1);
-    }
-
-    /**
-     * Main render function, contains renderbegin, renderworld, and renderend
-     */
-    public static void render(Level world) throws IOException {
-        Renderer.renderBegin();
-
-        Renderer.renderWorld(world);
-
-        Renderer.renderEnd();
     }
 
     /**
@@ -144,5 +162,9 @@ public class Renderer {
      */
     public static void setWindowHeight(int windowHeight) {
         Renderer.windowHeight = windowHeight;
+    }
+
+    public static boolean canTick() {
+            return (accumulator > (1000d/targetTPS));
     }
 }

@@ -10,9 +10,11 @@ public abstract class Event {
     private boolean cancelled;
 
     public void dispatch() {
-        EventManager.dispatchEvent(this, ListenerPriority.NORMAL);
+        //For every value in the ListenerPriority, fire its associated priority
+        for (int i = 0; i < ListenerPriority.values().length; i++) {
+            EventManager.dispatchEvent(this, ListenerPriority.values()[i]);
+        }
     }
-
 
     public boolean isCancelled() {
         return cancelled;

@@ -13,13 +13,19 @@ import org.goose.Main;
 import org.goose.core.Input;
 import org.goose.core.Physics;
 import org.goose.core.Renderer;
+import org.goose.core.event.core.EventHandler;
+import org.goose.core.event.core.EventListener;
+import org.goose.core.event.core.EventManager;
+import org.goose.core.event.core.ListenerPriority;
+import org.goose.core.event.events.core.RenderDrawEvent;
+import org.goose.core.event.events.core.TickEvent;
 import org.goose.level.Level;
 import org.goose.level.MenuScreen;
 
 import java.io.IOException;
 import java.util.Random;
 
-public class Pong extends Level {
+public class Pong extends Level implements EventListener {
 
     private final Rectangle paddle1;
     private final Rectangle paddle2;
@@ -35,6 +41,7 @@ public class Pong extends Level {
     private Vector2 score; //x = player1, y = bot
 
     public Pong() {
+        EventManager.addListener(this);
         paddle1 = new Rectangle(0,0, 20, Renderer.getWindowHeight()/5f);
         paddle2 = new Rectangle(Renderer.getWindowWidth()-20, 0, 20, Renderer.getWindowHeight()/5f);
         goal = new Rectangle(Renderer.getWindowWidth()/2f, Renderer.getWindowHeight()/2f, 30,30);
@@ -47,25 +54,18 @@ public class Pong extends Level {
     }
 
 
-    @Override
-    public void render(double delta) throws IOException {
+    @EventHandler(priority = ListenerPriority.HIGHEST)
+    public void render(RenderDrawEvent event) throws IOException {
         Renderer.renderer.core.ClearBackground(Color.BLACK);
         rShapes.DrawRectangleRec(paddle1, Color.WHITE);
         rShapes.DrawRectangleRec(paddle2, Color.WHITE);
         rShapes.DrawRectangleRec(goal, Color.WHITE);
         Renderer.renderer.text.DrawText("Player1: " + (int)score.x + " | " + "Player2: " + (int)score.y, Renderer.getWindowWidth()/2 - 150, 30 * Renderer.getWindowHeight()/1920, 30, Color.WHITE);
-        try {
-            if (Input.controllerManager.getControllerIndex(0).isButtonJustPressed(ControllerButton.BACK)) {
-                this.setEnabled(false);
-                Main.menuScreen.setEnabled(true);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
-    @Override
-    public void tick(double delta) {
+    @EventHandler
+    public void tick(TickEvent event) {
         if (Input.pressedKeys.contains(Keyboard.KEY_F11)) {
             if (rCore.IsWindowFullscreen()) {
                 Renderer.renderer.core.SetWindowState(Config.ConfigFlag.FLAG_WINDOW_MAXIMIZED);
@@ -89,28 +89,31 @@ public class Pong extends Level {
         if (Input.heldKeys.contains(Keyboard.KEY_S)) {
             paddle1speed = speed;
         }
-        try {
-            if (Input.controllerManager.getControllerIndex(0).getAxisState(ControllerAxis.LEFTY) > 0.25) {
-                paddle2speed = -speed;
-            } else if (Input.controllerManager.getControllerIndex(0).getAxisState(ControllerAxis.LEFTY) < -0.25) {
-                paddle2speed = speed;
-            } else {
-                paddle2speed = 0;
+        if (Input.anyControllersConnected()) {
+            try {
+                if (Input.controllerManager.getControllerIndex(0).getAxisState(ControllerAxis.LEFTY) > 0.25) {
+                    paddle2speed = -speed;
+                } else if (Input.controllerManager.getControllerIndex(0).getAxisState(ControllerAxis.LEFTY) < -0.25) {
+                    paddle2speed = speed;
+                } else {
+                    paddle2speed = 0;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            if (Input.controllerManager.getControllerIndex(1).getAxisState(ControllerAxis.LEFTY) > 0.25) {
-                paddle1speed = -speed;
-            } else if (Input.controllerManager.getControllerIndex(1).getAxisState(ControllerAxis.LEFTY) < -0.25) {
-                paddle1speed = speed;
-            } else {
-                paddle1speed = 0;
+            try {
+                if (Input.controllerManager.getControllerIndex(1).getAxisState(ControllerAxis.LEFTY) > 0.25) {
+                    paddle1speed = -speed;
+                } else if (Input.controllerManager.getControllerIndex(1).getAxisState(ControllerAxis.LEFTY) < -0.25) {
+                    paddle1speed = speed;
+                } else {
+                    paddle1speed = 0;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+
         if (!Input.heldKeys.contains(Keyboard.KEY_W) && !Input.heldKeys.contains(Keyboard.KEY_S)) {
             if (paddle1speed > 0.25) {
                 paddle1speed -= .015;

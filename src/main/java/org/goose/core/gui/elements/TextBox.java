@@ -7,6 +7,8 @@ import com.raylib.java.shapes.rShapes;
 import org.goose.core.Input;
 import org.goose.core.Physics;
 import org.goose.core.Time;
+import org.goose.core.event.core.EventHandler;
+import org.goose.core.event.events.core.RenderDrawEvent;
 
 import java.util.ArrayList;
 
@@ -53,8 +55,11 @@ public class TextBox extends TextLabel {
 
     private int flasher = 0;
 
-    @Override
-    public void render(double deltaTime) {
+    @EventHandler
+    public void render(RenderDrawEvent event) {
+        if (!this.getLevel().isEnabled()) {
+            return;
+        }
         flasher += 1;
         boolean hoveredOver = Physics.pointCollidingRect(super.rect, Input.getMousePosition());
         if (hoveredOver) {

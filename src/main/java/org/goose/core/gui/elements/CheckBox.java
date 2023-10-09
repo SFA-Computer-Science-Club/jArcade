@@ -7,6 +7,8 @@ import com.raylib.java.shapes.rShapes;
 import org.goose.core.Input;
 import org.goose.core.Physics;
 import org.goose.core.Time;
+import org.goose.core.event.core.EventHandler;
+import org.goose.core.event.events.core.RenderDrawEvent;
 
 public class CheckBox extends TextLabel {
     Rectangle checkRect;
@@ -31,8 +33,11 @@ public class CheckBox extends TextLabel {
     double lastCheckedTime = Time.now();
     double checkCoolDown = 200; //milliseconds
 
-    @Override
-    public void render(double delta) {
+    @EventHandler
+    public void render(RenderDrawEvent event) {
+        if (!this.getLevel().isEnabled()) {
+            return;
+        }
         rShapes.DrawRectangleRec(rect, getBackgroundColor());
 
         if (Physics.pointCollidingRect(checkRect, Input.getMousePosition())) {

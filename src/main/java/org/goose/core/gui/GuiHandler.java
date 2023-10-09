@@ -1,10 +1,11 @@
 package org.goose.core.gui;
 
+import org.goose.core.event.core.EventListener;
+import org.goose.core.event.core.EventManager;
 import org.goose.core.gui.elements.Element;
 import org.goose.level.Level;
 
 import java.util.ArrayList;
-import java.util.EventListener;
 import java.util.HashMap;
 
 public class GuiHandler {
@@ -21,30 +22,18 @@ public class GuiHandler {
         return false;
     }
 
+    public static void printAll() {
+        for (Level level : guiElementsList.keySet()) {
+            System.out.println(guiElementsList.get(level));
+        }
+    }
+
     public static void removeElement(Element element, Level level) {
         if (guiElementsList.containsKey(level)) {
             if (guiElementsList.get(level) != null) {
                 guiElementsList.get(level).remove(element);
                 //also remove it from the event system
-                if (element instanceof EventListener) {
-
-                }
-            }
-        }
-    }
-
-    /**
-     * Render all elements
-     */
-    public static void renderElements() {
-        for (Level level : guiElementsList.keySet()) {
-            if (!level.isEnabled()) {
-                continue;
-            }
-            for (Element element : guiElementsList.get(level)) {
-                if (element.isVisible()) {
-                    element.render(0);
-                }
+                EventManager.deleteListener(element);
             }
         }
     }
@@ -53,15 +42,21 @@ public class GuiHandler {
         if (guiElementsList.containsKey(level)) {
             //add to the arraylist if it exists
             if (guiElementsList.get(level) != null) {
-
+                guiElementsList.get(level).add(element);
+                EventManager.addListener(element);
+                element.setLevel(level);
             } else {
                 ArrayList<Element> list = new ArrayList<>();
                 list.add(element);
+                EventManager.addListener(element);
+                element.setLevel(level);
                 guiElementsList.put(level, list);
             }
         } else {
             ArrayList<Element> list = new ArrayList<>();
             list.add(element);
+            element.setLevel(level);
+            EventManager.addListener(element);
             guiElementsList.put(level, list);
         }
     }

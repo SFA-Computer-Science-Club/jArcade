@@ -8,6 +8,7 @@ import com.studiohartman.jamepad.ControllerManager;
 
 import java.util.ArrayList;
 
+@Deprecated
 public class Input {
     //input class used to help simplify user input
     //public static

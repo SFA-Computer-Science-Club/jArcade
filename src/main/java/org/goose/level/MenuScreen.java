@@ -5,14 +5,17 @@ import com.raylib.java.core.Color;
 import com.raylib.java.core.input.Keyboard;
 import com.raylib.java.core.rCore;
 import com.raylib.java.raymath.Vector2;
-import com.studiohartman.jamepad.ControllerButton;
 import org.goose.Main;
 import org.goose.core.Input;
 import org.goose.core.Renderer;
 import org.goose.core.event.core.EventHandler;
 import org.goose.core.event.core.EventListener;
 import org.goose.core.event.core.EventManager;
-import org.goose.core.event.events.TextButtonClickEvent;
+import org.goose.core.event.core.ListenerPriority;
+import org.goose.core.event.events.core.RenderDrawEvent;
+import org.goose.core.event.events.gui.TextButtonClickEvent;
+import org.goose.core.event.events.core.TickEvent;
+import org.goose.core.gui.GuiHandler;
 import org.goose.core.gui.elements.TextButton;
 import org.goose.level.PongGame.Pong;
 import org.goose.objects.Player;
@@ -37,59 +40,41 @@ public class MenuScreen extends Level implements EventListener {
 
     public MenuScreen() {
         setBackGroundColor(Color.LIGHTGRAY);
+        GuiHandler.addElement(pongButton, this);
+        GuiHandler.addElement(platformerButton, this);
+        GuiHandler.addElement(closeButton, this);
+        EventManager.addListener(this);
     }
 
-    @Override
-    public void render(double delta) throws IOException {
+    @EventHandler(priority = ListenerPriority.CRITICAL)
+    public void render(RenderDrawEvent event) {
         Renderer.renderer.core.ClearBackground(getBackGroundColor());
         int centerX = (Renderer.getWindowWidth()/2);
         int centerY = (Renderer.getWindowHeight()/2);
-
-        pongButton.render(delta);
-        platformerButton.render(delta);
-        closeButton.render(delta);
     }
 
     @EventHandler
     public void closeButtonPressed(TextButtonClickEvent event) {
         //Test example of how to use an event system
+        if (event.getButton().equals(closeButton)) {
+            Renderer.close();
+        }
+        if (event.getButton().equals(pongButton)) {
+            Pong pong = new Pong();
+            Main.worldList.add(pong);
+            pong.setEnabled(true);
+            Main.menuScreen.setEnabled(false);
+        }
     }
 
-    @Override
-    public void tick(double delta) {
+    @EventHandler
+    public void tick(TickEvent tickEvent) {
         if (Input.pressedKeys.contains(Keyboard.KEY_F11)) {
             if (rCore.IsWindowFullscreen()) {
                 Renderer.renderer.core.SetWindowState(Config.ConfigFlag.FLAG_WINDOW_MAXIMIZED);
             } else {
                 Renderer.renderer.core.ToggleFullscreen();
             }
-        }
-        if (closeButton.isClicked()) {
-            closeButton.setClicked(false);
-            Renderer.renderer.core.CloseWindow();
-        }
-        if (Input.anyControllersConnected()) {
-            try {
-                if (Input.getController(0).isButtonJustPressed(ControllerButton.BACK) ) {
-                    pongButton.setClicked(false);
-                    Pong pong = new Pong();
-                    Main.worldList.add(pong);
-                    this.setEnabled(false);
-                    pong.setEnabled(true);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (pongButton.isClicked()) {
-            TextButtonClickEvent event = new TextButtonClickEvent(pongButton, this);
-            event.dispatch();
-            pongButton.setClicked(false);
-            Pong pong = new Pong();
-            Main.worldList.add(pong);
-            this.setEnabled(false);
-            pong.setEnabled(true);
         }
     }
 }

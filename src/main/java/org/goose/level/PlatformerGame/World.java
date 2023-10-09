@@ -8,6 +8,9 @@ import com.raylib.java.raymath.Vector2;
 import org.goose.Main;
 import org.goose.core.Input;
 import org.goose.core.Renderer;
+import org.goose.core.event.core.EventHandler;
+import org.goose.core.event.events.core.RenderDrawEvent;
+import org.goose.core.event.events.core.TickEvent;
 import org.goose.core.gui.elements.CheckBox;
 import org.goose.level.Level;
 import org.goose.objects.DirtBlock;
@@ -46,8 +49,8 @@ public class World extends Level {
         setBackGroundColor(Color.GRAY);
     }
 
-    @Override
-    public void render(double delta) {
+    @EventHandler
+    public void render(RenderDrawEvent event) {
         Renderer.renderer.core.ClearBackground(getBackGroundColor());
 
         //goes through all of the objects and renders them
@@ -60,14 +63,10 @@ public class World extends Level {
         for(Entity entity : this.entities) {
             entity.render();
         }
-
-        if (devMode) {
-            checkBox.render(delta);
-        }
     }
 
-    @Override
-    public void tick(double deltaTime) {
+    @EventHandler
+    public void tick(TickEvent event) {
         if (checkBox.isChecked()) {
             if (gravity != 0) {
                 setGravity(0);
@@ -77,7 +76,7 @@ public class World extends Level {
         }
 
         for (Entity entity : entities) {
-            entity.tick(deltaTime);
+            entity.tick(0);
         }
 
         if (Input.heldKeys.contains(Keyboard.KEY_RIGHT)) {

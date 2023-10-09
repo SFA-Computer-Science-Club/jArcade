@@ -17,19 +17,6 @@ import java.util.ArrayList;
 
 public class Physics {
 
-    public static void tick(double deltaTime) {
-        //pass physics to world, world passes to entities etc
-        if (Input.isKeyPressed(Keyboard.KEY_F3)) {
-            Renderer.drawFPS = !Renderer.drawFPS;
-        }
-
-        for (int i = 0; i < Main.worldList.size(); i++) {
-            if (Main.worldList.get(i).isEnabled()) {
-                Main.worldList.get(i).tick(deltaTime);
-            }
-        }
-    }
-
     /**
      * Returns a tile that an entity collided with, checks over tileset provided, returns empty
      * arraylist if nothing is collided
