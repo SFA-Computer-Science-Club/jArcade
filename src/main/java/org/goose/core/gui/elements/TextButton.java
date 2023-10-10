@@ -63,6 +63,7 @@ public class TextButton extends TextLabel{
         if (Physics.pointCollidingRect(this.rect, event.getPosition()) && this.isVisible()) {
             TextButtonClickEvent textButtonClickEvent = new TextButtonClickEvent(this);
             textButtonClickEvent.dispatch();
+            System.out.println("test");
         }
     }
 }
