@@ -32,11 +32,7 @@ public class TextButton extends TextLabel{
        this.clicked = false;
     }
 
-    @EventHandler
-    public void render(RenderDrawEvent event) {
-        if (!this.getLevel().isEnabled()) {
-            return;
-        }
+    public void render() {
         boolean hovered = Physics.pointCollidingRect(super.rect, Input.getMousePosition());
         if (hovered) {
             if (Input.isLeftMouseClicked()) {

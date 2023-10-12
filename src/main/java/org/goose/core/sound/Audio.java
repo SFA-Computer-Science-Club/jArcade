@@ -27,7 +27,14 @@ public class Audio {
             int num = alGetSourcei(source, AL_SOURCE_STATE);
             if (num == AL_STOPPED) {
                 playing = false;
+                return;
             }
+            Audio audio = new Audio();
+            audio.setBuffer(this.buffer);
+            audio.setFormat(this.format);
+            audio.setSource(alGenSources());
+            audio.setLength(this.length);
+            audio.play();
             return;
         }
         playing = true;
@@ -83,5 +90,9 @@ public class Audio {
 
     public void setFormat(int format) {
         this.format = format;
+    }
+
+    public void delete() {
+        alDeleteSources(this.source);
     }
 }

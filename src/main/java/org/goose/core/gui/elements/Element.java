@@ -2,6 +2,7 @@ package org.goose.core.gui.elements;
 
 import com.raylib.java.raymath.Vector2;
 import org.goose.core.event.core.EventListener;
+import org.goose.core.event.core.EventManager;
 import org.goose.core.gui.GuiHandler;
 import org.goose.level.Level;
 
@@ -12,6 +13,7 @@ public abstract class Element implements EventListener {
     private Vector2 position = new Vector2();
     private boolean visible = true;
     private Level level;
+    private int zIndex;
     public enum TextCenter {
         TOP_LEFT,
         TOP_CENTER,
@@ -22,6 +24,10 @@ public abstract class Element implements EventListener {
         BOTTOM_LEFT,
         BOTTOM_MIDDLE,
         BOTTOM_RIGHT
+    }
+
+    public Element(){
+        EventManager.addListener(this);
     }
 
     public boolean isVisible() {
@@ -47,4 +53,14 @@ public abstract class Element implements EventListener {
     public void setLevel(Level level) {
         this.level = level;
     }
+
+    public int getzIndex() {
+        return zIndex;
+    }
+
+    public void setzIndex(int zIndex) {
+        this.zIndex = zIndex;
+    }
+
+    public abstract void render();
 }

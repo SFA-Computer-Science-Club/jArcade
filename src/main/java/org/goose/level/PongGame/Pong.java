@@ -25,7 +25,7 @@ import org.goose.level.MenuScreen;
 import java.io.IOException;
 import java.util.Random;
 
-public class Pong extends Level implements EventListener {
+public class Pong extends Level {
 
     private final Rectangle paddle1;
     private final Rectangle paddle2;
@@ -41,7 +41,6 @@ public class Pong extends Level implements EventListener {
     private Vector2 score; //x = player1, y = bot
 
     public Pong() {
-        EventManager.addListener(this);
         paddle1 = new Rectangle(0,0, 20, Renderer.getWindowHeight()/5f);
         paddle2 = new Rectangle(Renderer.getWindowWidth()-20, 0, 20, Renderer.getWindowHeight()/5f);
         goal = new Rectangle(Renderer.getWindowWidth()/2f, Renderer.getWindowHeight()/2f, 30,30);

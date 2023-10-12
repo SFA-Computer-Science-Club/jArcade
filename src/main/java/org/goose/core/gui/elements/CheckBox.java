@@ -33,11 +33,7 @@ public class CheckBox extends TextLabel {
     double lastCheckedTime = Time.now();
     double checkCoolDown = 200; //milliseconds
 
-    @EventHandler
-    public void render(RenderDrawEvent event) {
-        if (!this.getLevel().isEnabled()) {
-            return;
-        }
+    public void render() {
         rShapes.DrawRectangleRec(rect, getBackgroundColor());
 
         if (Physics.pointCollidingRect(checkRect, Input.getMousePosition())) {

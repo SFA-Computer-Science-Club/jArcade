@@ -276,11 +276,7 @@ public class TextLabel extends Element{
         this.fontSize = fontSize;
     }
 
-    @EventHandler
-    public void render(RenderDrawEvent event) {
-        if (!this.getLevel().isEnabled()) {
-            return;
-        }
+    public void render() {
         rShapes.DrawRectangleRec(rect, backgroundColor);
         DrawTextBoxRestricted(rect, fontSize, text, this);
     }

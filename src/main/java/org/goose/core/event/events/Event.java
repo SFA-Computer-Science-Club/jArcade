@@ -1,5 +1,6 @@
 package org.goose.core.event.events;
 
+import org.goose.core.Time;
 import org.goose.core.event.core.EventManager;
 import org.goose.core.event.core.ListenerPriority;
 
@@ -8,6 +9,7 @@ import org.goose.core.event.core.ListenerPriority;
  */
 public abstract class Event {
     private boolean cancelled;
+    private double time = Time.now();
 
     public void dispatch() {
         //For every value in the ListenerPriority, fire its associated priority
@@ -18,6 +20,10 @@ public abstract class Event {
 
     public boolean isCancelled() {
         return cancelled;
+    }
+
+    public double getTime() {
+        return this.time;
     }
 
     public void setCancelled(boolean cancelled) {

@@ -11,6 +11,7 @@ import org.goose.core.event.events.core.*;
 import org.goose.core.input.InputListener;
 import org.goose.objects.DirtBlock;
 import org.goose.objects.GrassBlock;
+import org.goose.objects.SFACube;
 
 public class Renderer {
 
@@ -43,6 +44,7 @@ public class Renderer {
 
         DirtBlock.initTexture();
         GrassBlock.initTexture();
+        SFACube.initTexture();
 
         Image image = TextureLoader.loadImage("textures/dirt_block.png");
         Renderer.renderer.core.SetWindowIcon(image);

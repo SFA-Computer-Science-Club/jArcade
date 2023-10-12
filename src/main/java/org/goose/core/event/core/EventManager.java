@@ -1,6 +1,7 @@
 package org.goose.core.event.core;
 
 import org.goose.core.event.events.Event;
+import org.goose.core.event.events.core.TickEvent;
 import org.goose.level.Level;
 
 import java.lang.annotation.Annotation;
@@ -78,7 +79,7 @@ public class EventManager {
                     continue;
                 }
             }
-            for (final Method method : listener.getClass().getDeclaredMethods()) {
+            for (final Method method : listener.getClass().getMethods()) {
                 if (method.isAnnotationPresent(EventHandler.class)) {
                     EventHandler annotation = method.getAnnotation(EventHandler.class);
                     if (annotation.priority().ordinal() != priority.ordinal()) {

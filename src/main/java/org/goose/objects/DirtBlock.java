@@ -30,7 +30,7 @@ public class DirtBlock extends Tile {
         setY(y);
     }
 
-    @Override
+
     public void render() {
         Renderer.renderer.textures.DrawTexture(texture, getX(), getY(), Color.WHITE);
     }

@@ -15,13 +15,14 @@ import java.util.ArrayList;
 public class Main {
 
     public static World world = new World();
-    public static MenuScreen menuScreen = new MenuScreen();
+    public static MenuScreen menuScreen;
     public static ArrayList<Level> worldList = new ArrayList<>();
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         Renderer.init();
         Input.init();
 
+        menuScreen = new MenuScreen();
         //Go through and initialize our textures
         worldList.add(world);
         worldList.add(menuScreen);

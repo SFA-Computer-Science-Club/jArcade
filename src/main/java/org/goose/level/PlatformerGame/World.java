@@ -56,7 +56,6 @@ public class World extends Level {
         //goes through all of the objects and renders them
         for (Vector2 vector : this.tileMap.keySet()) {
             Tile tile = this.tileMap.get(vector);
-            tile.render();
         }
 
         //after map is rendered, render player/entities
@@ -106,7 +105,7 @@ public class World extends Level {
      * @param path
      * @throws IOException
      */
-    public void loadWorldFromCSV(String path) throws IOException {
+    public void loadWorldFromCSV(String path){
         //clear old map and load the new map, allows a world to have map changed mid-game
         tileMap.clear();
 
@@ -138,6 +137,8 @@ public class World extends Level {
                 }
                 counter++;
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

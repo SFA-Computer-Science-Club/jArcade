@@ -55,11 +55,7 @@ public class TextBox extends TextLabel {
 
     private int flasher = 0;
 
-    @EventHandler
-    public void render(RenderDrawEvent event) {
-        if (!this.getLevel().isEnabled()) {
-            return;
-        }
+    public void render() {
         flasher += 1;
         boolean hoveredOver = Physics.pointCollidingRect(super.rect, Input.getMousePosition());
         if (hoveredOver) {
