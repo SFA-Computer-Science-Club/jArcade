@@ -41,7 +41,7 @@ public class Pong extends Level {
     private Vector2 score; //x = player1, y = bot
 
     public Pong() {
-        paddle1 = new Rectangle(0,0, 20, Renderer.getWindowHeight()/5f);
+        paddle1 = new Rectangle(Renderer.getWindowWidth()/2,Renderer.getWindowHeight()/2, 20, Renderer.getWindowHeight()/5f);
         paddle2 = new Rectangle(Renderer.getWindowWidth()-20, 0, 20, Renderer.getWindowHeight()/5f);
         goal = new Rectangle(Renderer.getWindowWidth()/2f, Renderer.getWindowHeight()/2f, 30,30);
         score = new Vector2(0,0);

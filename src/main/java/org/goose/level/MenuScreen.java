@@ -37,7 +37,7 @@ public class MenuScreen extends Level {
     private final TextButton pongButton = new TextButton("Play Pong", 300, 100, 30, new Vector2(500,500), Color.WHITE, Color.PURPLE);
     private final TextButton platformerButton = new TextButton("Play Platformer", 300, 100, 30, new Vector2(500,600), Color.WHITE, Color.PURPLE);
     private final TextButton closeButton = new TextButton("Close", 100,100, 30, new Vector2(0,0), Color.WHITE, Color.RED);
-    private final Audio collisionSound = new Audio("sound/splat.ogg");
+    //private final Audio collisionSound = new Audio("sound/splat.ogg");
     private final ArrayList<SFACube> cubeList = new ArrayList<>();
 
     public void startGame(){
@@ -134,17 +134,17 @@ public class MenuScreen extends Level {
             }
             if (cube.x + cube.getSizeX() > Renderer.getWindowWidth()) {
                 cube.velocity.x = -cube.velocity.x;
-                collisionSound.play();
+                //collisionSound.play();
             } else if (cube.x < 0) {
                 cube.velocity.x = -cube.velocity.x;
-                collisionSound.play();
+                //collisionSound.play();
             }
             if (cube.getY() + cube.getSizeY() > Renderer.getWindowHeight()) {
                 cube.velocity.y = -cube.velocity.y;
-                collisionSound.play();
+                //collisionSound.play();
             } else if (cube.y < 0) {
                 cube.velocity.y = -cube.velocity.y;
-                collisionSound.play();
+                //collisionSound.play();
             }
         }
     }

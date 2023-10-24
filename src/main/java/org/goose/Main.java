@@ -7,6 +7,7 @@ import org.goose.core.event.events.core.InitializationEvent;
 import org.goose.core.gui.GuiHandler;
 import org.goose.core.sound.Audio;
 import org.goose.level.*;
+import org.goose.level.Breakout.Breakout;
 import org.goose.level.PlatformerGame.World;
 
 import java.io.IOException;
@@ -27,8 +28,10 @@ public class Main {
         worldList.add(world);
         worldList.add(menuScreen);
 
+        Breakout breakout = new Breakout();
+
         //init menu
-        menuScreen.setEnabled(true);
+        //menuScreen.setEnabled(true);
 
         //main game loop
         while (!Renderer.shouldClose()) {
